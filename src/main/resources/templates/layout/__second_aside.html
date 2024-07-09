@@ -1,0 +1,16 @@
+<html lang="en" th:fragment="second_aside">
+<aside class="aside-right">
+    <div class="mt-3 p-1">
+        <b class="text-secondary">Your Pages and profiles</b>
+        <p class="fw-bold mb-3 mt-3">
+            <img th:src="${#authentication.principal.account.accountInfo.avatar}" class="rounded-circle" alt="..." width="40px">
+            [[${#authentication.principal.account.accountInfo.fullName}]]
+        </p>
+        <hr>
+        <b class="text-secondary">Contacts</b>
+        <p class="fw-bold mt-3 mb-3"><img
+                src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-1/430796318_10115540567190571_8582399341104871939_n.jpg?stp=dst-jpg_p200x200&_nc_cat=1&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=I2cw9UNy1E0Q7kNvgELFfM-&_nc_ht=scontent.fhan2-4.fna&oh=00_AYBsuqzvh98o25U1ESEHNqoSd6LC_qCr0SVHjmphGtJzDw&oe=669350F3"
+                class="rounded-circle" alt="..." width="40px"> Mark Zuckerberg</p>
+        <hr>
+    </div>
+</aside>

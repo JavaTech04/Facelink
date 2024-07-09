@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{authentication/index::dynamic(~{::div})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<div>
+    <form method="post" th:action="@{/login}">
+        <div th:if="${param.error != null}" class="alert alert-danger" role="alert">
+            [[${session.error}]]
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="username" id="username"
+                   placeholder="Email address or phone number" th:value="${session.username}">
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" name="password" id="password"
+                   placeholder="Password" th:value="${session.password}">
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary fw-bold h-100">Log in</button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="#" class="forgot-password text-decoration-none">Forgotten password?</a>
+        </div>
+        <hr>
+        <div class="d-grid gap-2">
+            <button type="button" class="create-account-button" onclick="window.location.href='/signup'">Create new account</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

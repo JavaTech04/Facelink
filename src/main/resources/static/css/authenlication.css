@@ -1,0 +1,48 @@
+.login-container {
+    max-width: 400px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.facebook-text {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 70px;
+    color: #4267FF;
+}
+.create-account-button {
+    background-color: #42b72a;
+    color: white;
+    font-weight: bold;
+    border: none;
+    height: 35px;
+    border-radius: 8px;
+}
+.create-account-button:hover {
+    background-color: #36a420;
+}
+.forgot-password {
+    color: #1877f2;
+}
+
+.footer {
+    font-size: 14px;
+    color: #606770;
+    background-color: #f0f2f5;
+    padding: 20px 0;
+    border-top: 1px solid #dddfe2;
+}
+.footer a {
+    color: #606770;
+    text-decoration: none;
+    margin-right: 15px;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+.footer .lang-selector {
+    margin-bottom: 10px;
+}
+.footer .footer-links {
+    margin-bottom: 10px;
+}
