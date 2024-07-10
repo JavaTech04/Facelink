@@ -17,8 +17,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         String redirectUrl = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(RoleEnum.ADMIN.name()))
-                ? "/"
-                : "/home";
+                ? "/profile"
+                : "/";
         response.sendRedirect(redirectUrl);
     }
 }

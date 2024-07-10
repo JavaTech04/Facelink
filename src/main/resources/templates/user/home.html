@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{home/index::dynamic(~{::main})}">
+<html lang="en" th:replace="~{user/index::dynamic(~{::main})}">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -10,7 +10,7 @@
         <div class="d-flex text-start mb-3">
             <div class="d-flex" id="carouselInner">
                 <div class="story-item">
-                    <img th:src="${#authentication.principal.account.accountInfo.avatar}"
+                    <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://png.pngtree.com/back_origin_pic/04/49/63/93264d0256697a38a75d1840ea6ef63f.jpg': #authentication.principal.account.accountInfo.avatar}"
                          alt="Create story">
                     <a th:href="@{#/create-story}" class="create-story">Create story</a>
                 </div>
@@ -34,7 +34,7 @@
         <div class="border rounded mb-3 p-4">
             <div class="row">
                 <div class="col-1">
-                    <img th:src="${#authentication.principal.account.accountInfo.avatar}"
+                    <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
                          class="rounded-circle" alt="..." width="40px">
                 </div>
                 <div class="col-11 d-flex justify-content-center align-items-center">
@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-        <div class="mb-3 border p-3">
+        <div class="mb-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded p-3">
             <div class="profile-container mb-2">
                 <img src="https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-1/446732501_1658022081613061_7024694374018705809_n.jpg?stp=dst-jpg_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=50d2ac&_nc_ohc=g_uMphr0BXcQ7kNvgHkIoPQ&_nc_ht=scontent.fhan20-1.fna&oh=00_AYDIPjYmR9TM3JN8c7goC3XEVR2gAWrU_Nb9iiOfmuCmVw&oe=6692DF66"
                      class="rounded-circle" alt="..." width="40px">
@@ -95,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="mb-3 border p-3">
+        <div class="mb-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded p-3">
             <div class="profile-container mb-2">
                 <img src="https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-1/446732501_1658022081613061_7024694374018705809_n.jpg?stp=dst-jpg_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=50d2ac&_nc_ohc=g_uMphr0BXcQ7kNvgHkIoPQ&_nc_ht=scontent.fhan20-1.fna&oh=00_AYDIPjYmR9TM3JN8c7goC3XEVR2gAWrU_Nb9iiOfmuCmVw&oe=6692DF66"
                      class="rounded-circle" alt="..." width="40px">
@@ -134,7 +134,7 @@
                 </div>
             </div>
         </div>
-        <div class="mb-3 border p-2 mt-3">
+        <div class="mb-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded p-2 mt-3">
             <div class="profile-container mb-2">
                 <img src="https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-1/446732501_1658022081613061_7024694374018705809_n.jpg?stp=dst-jpg_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=50d2ac&_nc_ohc=g_uMphr0BXcQ7kNvgHkIoPQ&_nc_ht=scontent.fhan20-1.fna&oh=00_AYDIPjYmR9TM3JN8c7goC3XEVR2gAWrU_Nb9iiOfmuCmVw&oe=6692DF66"
                      class="rounded-circle" alt="..." width="40px">
@@ -143,10 +143,11 @@
                     <p class="text-muted text-start small mb-0">2 day a go.</p>
                 </div>
             </div>
-            <p>This is my background window...!</p>
+            <p> Vì ngày xưa ấy nghĩ rằng tay trong tay | còn gì đau hơn chữ đã từng...!</p>
             <div class="d-flex justify-content-center align-items-center">
-                <img src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/450140440_1679737436108192_4009668874840530215_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=okKtPAE1bSwQ7kNvgGKPIh7&_nc_ht=scontent.fhan2-4.fna&oh=00_AYDd4UDLpyVjNgHfVqBGHw5GJXkEZ3fdpaKnyupVv1lAKQ&oe=6692F05A"
-                     class="rounded d-block" alt="..." width="50%">
+<!--                <img src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/450140440_1679737436108192_4009668874840530215_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=okKtPAE1bSwQ7kNvgGKPIh7&_nc_ht=scontent.fhan2-4.fna&oh=00_AYDd4UDLpyVjNgHfVqBGHw5GJXkEZ3fdpaKnyupVv1lAKQ&oe=6692F05A"-->
+<!--                     class="rounded d-block" alt="..." width="50%">-->
+                <iframe class="rounded d-block" width="100%" height="310" src="https://res.cloudinary.com/dswqplrdx/video/upload/v1720631702/gn9tlfd7xjwmpv1pqlyt.mp4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>></iframe>
             </div>
             <div class="row border-top d-flex p-2 mt-3">
                 <div class="col">

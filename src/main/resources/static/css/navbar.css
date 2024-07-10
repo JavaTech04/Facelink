@@ -4,3 +4,14 @@
 .nav-search{
     margin-left: -15px;
 }
+.btn-nav-profile{
+    border: none;
+    background: transparent;
+    margin: 3px;
+    height: 30px;
+    color: #606770;
+}
+.btn-nav-profile:hover{
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+}

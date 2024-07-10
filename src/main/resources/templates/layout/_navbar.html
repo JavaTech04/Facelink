@@ -18,6 +18,9 @@
                     <a class="nav-link text-dark" aria-current="page" th:href="@{/friends}">Friends</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-dark" aria-current="page" th:href="@{/profile}">Profile</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-dark" aria-current="page" th:href="@{/videos}">Videos</a>
                 </li>
                 <li class="nav-item">
@@ -41,7 +44,7 @@
                         </li>
                     </ul>
                 </div>
-                <img th:src="${#authentication.principal.account.accountInfo.avatar}"
+                <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
                      class="rounded-circle" alt="avatar" width="40px">
             </div>
         </div>

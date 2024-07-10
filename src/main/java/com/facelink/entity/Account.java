@@ -1,17 +1,19 @@
 package com.facelink.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "accounts")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString(exclude = {"accountInfo", "accountDetails"})
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,16 +30,16 @@ public class Account {
     private String password;
 
     @Column(name = "is_locked")
-    private Boolean isLocked;
+    private Boolean isLocked = false;
 
     @Column(name = "is_enabled")
-    private Boolean isEnabled;
+    private Boolean isEnabled = false;
 
     @Column(name = "verified_account")
-    private Boolean verifiedAccount;
+    private Boolean verifiedAccount = false;
 
     @Column(name = "create_date")
-    private Date createDate;
+    private Date createDate = new Date();
 
     @OneToOne(mappedBy = "account")
     private AccountDetail accountDetails;

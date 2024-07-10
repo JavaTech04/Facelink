@@ -1,13 +1,16 @@
 package com.facelink.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "accountDetail")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(exclude = {"account"})
 public class AccountDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +23,7 @@ public class AccountDetail {
     @Column(name = "following")
     private Integer following;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 

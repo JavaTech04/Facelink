@@ -1,7 +1,7 @@
 <html lang="en" th:fragment="first_aside">
 <aside class="aside-left">
     <div class="mt-3">
-    <a th:href="@{'/' + ${#authentication.principal.account.id}}" style="cursor: pointer; text-decoration: none; color: black" class="fw-bold"><img th:src="${#authentication.principal.account.accountInfo.avatar}" class="rounded-circle" alt="..." width="40px"> [[${#authentication.principal.account.accountInfo.fullName}]] <i th:if="${#authentication.principal.account.verifiedAccount}" class="text-primary bi bi-patch-check-fill"></i></a>
+    <a th:href="@{/profile}" style="cursor: pointer; text-decoration: none; color: black" class="fw-bold"><img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}" class="rounded-circle" alt="..." width="40px"> [[${#authentication.principal.account.accountInfo.fullName}]] <i th:if="${#authentication.principal.account.verifiedAccount}" class="text-primary bi bi-patch-check-fill"></i></a>
         <hr>
     <p class="fw-bold"><i class="h4 bi bi-people"></i> Friends</p>
     <p class="fw-bold"><i class="h4 bi bi-bar-chart-line"></i> Professional</p>
