@@ -51,6 +51,7 @@ CREATE TABLE accountInfo (
     FOREIGN KEY (account_id) REFERENCES accounts(id),
     FOREIGN KEY (relationship_id) REFERENCES relationships(id)
 );
+ALTER TABLE accountInfo MODIFY bio TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE accountDetail (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

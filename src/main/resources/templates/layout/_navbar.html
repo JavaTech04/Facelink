@@ -44,8 +44,17 @@
                         </li>
                     </ul>
                 </div>
-                <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
-                     class="rounded-circle" alt="avatar" width="40px">
+<!--                <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"-->
+<!--                     class="rounded-circle" alt="avatar" width="40px">-->
+                <div class="dropdown" style="position: static">
+                    <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
+                         class="rounded-circle dropdown-toggle" alt="avatar" width="40px" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

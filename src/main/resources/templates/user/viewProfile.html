@@ -13,24 +13,31 @@
         </div>
         <div class="profile-header">
             <div style="position: relative;">
-                <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
+                <img th:src="${info.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': info.accountInfo.avatar}"
                      class="profile-pic" alt="Profile Picture">
                 <img src="https://icons.iconarchive.com/icons/iconsmind/outline/512/Camera-icon.png" class="camera-icon"
                      alt="Camera Icon" width="24px">
             </div>
             <div class="profile-info">
-                <h1>[[${#authentication.principal.account.accountInfo.fullName}]] <i
-                        th:if="${#authentication.principal.account.verifiedAccount}"
-                        class="text-primary bi bi-patch-check-fill"></i></h1>
-                <p class="location" th:unless="${info.otherName == null}">
-                    ([[${info.otherName}]])</p>
-                <p class="followers"><span id="followerCount">[[${#authentication.principal.account.accountDetails.followers}]]</span>
-                    followers • <span id="followingCount">[[${#authentication.principal.account.accountDetails.following}]]</span>
-                    following</p>
+                <h1>[[${info.accountInfo.fullName}]] <i th:if="${info.verifiedAccount}"
+                                                        class="text-primary bi bi-patch-check-fill"></i></h1>
+                <p class="location" th:unless="${info.accountInfo.otherName == null}">
+                    ([[${info.accountInfo.otherName}]])</p>
+                <p class="followers"><span id="followerCount">[[${info.accountDetails.followers}]]</span> followers •
+                    <span id="followingCount">[[${info.accountDetails.following}]]</span> following</p>
                 <div class="following">
-                    <th:block th:each="friend : ${listFriends}">
+                    <th:block th:each="friend : ${listFriendsViewProfile}">
                         <img th:src="@{${friend.friendInfo.accountInfo.avatar}}"
                              th:alt="${friend.friendInfo.accountInfo.fullName}">
+                    </th:block>
+                    <th:block th:switch="${hasFriend.status}">
+                        <a th:case="1" th:href="@{'/friends/unfriend/' + ${info.id}}" class="btn border rounded">Unfriend</a>
+                        <th:block th:case="0">
+                            <a th:unless="${#authentication.principal.account.id eq hasFriend.accountId}" th:href="@{'/friends/confirm/' + ${info.id}}" class="btn border rounded me-2">Confirm</a>
+                            <a th:href="@{'/friends/cancel/' + ${info.id}}" class="btn border rounded">Cancel</a>
+                        </th:block>
+                        <a th:case="*" th:href="@{'/friends/sendRequest/' + ${info.id}}" class="btn border rounded">Add
+                            friend</a>
                     </th:block>
                 </div>
             </div>
@@ -43,59 +50,26 @@
         <div class="col-4">
             <div class="profile-card">
                 <div class="intro">Intro</div>
-                <form th:action="@{/profile/updateBio}" method="post" id="updateBio">
-                    <div class="bio text-center">
-                        <div id="div-show" style="display: block"
-                             th:text="${info.bio}">Bio
-                        </div>
-                        <textarea style="display: none" id="input-show" name="bio" class="form-control border-0 bg-transparent" placeholder="Bio"
-                                  th:text="${info.bio}"></textarea>
-                    </div>
-                    <div class="d-grid gap-2 mt-3">
-                        <button id="btn-edit" type="button" class="btn fw-bold border border-light-subtle">Edit bio
-                        </button>
-                        <div id="div-control" class="row" style="display: none">
-                            <div class="col-6 d-grid gap-2 mt-3">
-                                <button id="btn-cancel" type="button" class="btn fw-bold border border-light-subtle">
-                                    Cancel
-                                </button>
-                            </div>
-                            <div class="col-6 d-grid gap-2 mt-3">
-                                <button id="btn-save" type="button" class="btn fw-bold border border-light-subtle">
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <div class="bio">
+                    <div>Bio - Coming soon</div>
+                </div>
                 <hr>
                 <ul class="details">
                     <li><i class="bi bi-info-circle-fill text-secondary"></i><span>Profile · Public figure</span></li>
-                    <li th:unless="${info.work == null}"><i
-                            class="bi bi-briefcase-fill text-secondary"></i><span>Works at <strong
-                            th:text="${info.work}">Work</strong></span></li>
-                    <li th:unless="${info.education == null}"><i
+                    <li th:unless="${info.accountInfo.work == null}"><i class="bi bi-briefcase-fill text-secondary"></i><span>Works at <strong
+                            th:text="${info.accountInfo.work}">Work</strong></span></li>
+                    <li th:unless="${info.accountInfo.education == null}"><i
                             class="bi bi-building-fill text-secondary"></i><span>Studies at <strong
-                            th:text="${info.education}">Education</strong></span>
-                    </li>
-                    <li th:unless="${info.currentCity == null}"><i
+                            th:text="${info.accountInfo.education}">Education</strong></span></li>
+                    <li th:unless="${info.accountInfo.currentCity == null}"><i
                             class="bi bi-house-door-fill text-secondary"></i><span>Lives in <strong
-                            th:text="${info.currentCity}">CurrentCity</strong></span>
-                    </li>
-                    <li th:unless="${info.hometown == null}"><i
+                            th:text="${info.accountInfo.currentCity}">CurrentCity</strong></span></li>
+                    <li th:unless="${info.accountInfo.hometown == null}"><i
                             class="bi bi-geo-alt-fill text-secondary"></i><span>From <strong
-                            th:text="${info.hometown}">From</strong></span>
-                    </li>
-                    <li th:unless="${info.relationship == null}"><i
+                            th:text="${info.accountInfo.hometown}">From</strong></span></li>
+                    <li th:unless="${info.accountInfo.relationship == null}"><i
                             class="bi bi-heart-fill text-secondary"></i><span
-                            th:text="${info.relationship.statusName}">Relationship</span>
-                    </li>
-                    <li class="d-grid gap-2 mt-3">
-                        <button type="button" class="btn fw-bold border border-light-subtle" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                            Edit details
-                        </button>
-                    </li>
+                            th:text="${info.accountInfo.relationship.statusName}">Relationship</span></li>
                 </ul>
             </div>
         </div>
@@ -212,75 +186,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <form class="modal-dialog" method="post" th:action="@{/profile/update}" id="editDetails"
-              th:object="${accountInfo}">
-            <input type="hidden" th:field="*{id}">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Edit details</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control col-6" id="otherName" placeholder="otherName"
-                               th:field="*{otherName}">
-                        <label for="otherName">Other name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="work" placeholder="work" th:field="*{work}">
-                        <label for="work">Work at</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="student-at" placeholder="education"
-                               th:field="*{education}">
-                        <label for="student-at">Student at</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="lives-in" placeholder="currentCity"
-                               th:field="*{currentCity}">
-                        <label for="lives-in">Lives in</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="from" placeholder="hometown" th:field="*{hometown}">
-                        <label for="from">From</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="date-of-birth" placeholder="ate-of-birth"
-                               th:field="*{dateOfBirth}">
-                        <label for="date-of-birth">Date of birth</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" id="genderMale"
-                                   th:field="*{gender}" value="1">
-                            <label class="form-check-label" for="genderMale">Male</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" id="genderFemale"
-                                   th:field="*{gender}" value="0">
-                            <label class="form-check-label" for="genderFemale">Female</label>
-                        </div>
-                    </div>
-                    <div class=" mb-3">
-                        <select class="form-select" th:field="*{relationship}">
-                            <option th:value="${null}" selected>Relationship</option>
-                            <option th:each="relationship : ${relationships}" th:value="${relationship.id}">
-                                [[${relationship.statusName}]]
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" onclick="editDetailsSubmit()" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </form>
     </div>
 </main>
 </body>

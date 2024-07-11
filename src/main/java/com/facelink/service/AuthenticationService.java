@@ -23,6 +23,10 @@ public class AuthenticationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public Account findAccountById(Long id) {
+        return this.accountRepository.findById(id).orElse(null);
+    }
+
     @Transactional
     public Account save(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));

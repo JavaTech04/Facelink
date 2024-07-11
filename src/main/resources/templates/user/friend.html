@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{user/index::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Friend</title>
+</head>
+<body>
+<main>
+    <div class="container-fluid">
+        <div class="container" style="margin-bottom: 100px">
+            <h3 th:if="${!listFriends.isEmpty()}" class="mt-4 text-secondary">All friends</h3>
+            <hr th:if="${!listFriends.isEmpty()}">
+            <div class="row">
+                <th:block th:each="friend : ${listFriends}">
+                    <div class="col-md-3 me-3">
+                        <div class="friend-card shadow p-3 mb-5 bg-body-tertiary rounded">
+                            <img th:src="${friend.friendInfo.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': friend.friendInfo.accountInfo.avatar}"
+                                 alt="">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${friend.friendInfo.accountInfo.fullName}">FullName</h5>
+                                <a th:href="@{'/profile/' + ${friend.friendInfo.id}}" class="fw-bold btn-confirm">View profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+            <h3 th:if="${!friendRequests.isEmpty()}" class="mt-4 text-secondary">Friend Requests</h3>
+            <hr th:if="${!friendRequests.isEmpty()}">
+            <div class="row">
+                <th:block th:each="friend : ${friendRequests}">
+                    <div class="col-md-3 me-3">
+                        <div class="friend-card shadow p-3 mb-5 bg-body-tertiary rounded">
+                            <img th:src="${friend.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': friend.accountInfo.avatar}"
+                                 alt="">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${friend.accountInfo.fullName}">FullName</h5>
+                                <a th:href="@{'/friends/confirm/' + ${friend.id}}" class="fw-bold btn-confirm">Confirm</a>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+            <hr th:if="${!listFriends.isEmpty()}">
+            <h3 class="text-secondary">People you may know</h3>
+            <hr>
+            <div class="row">
+                <th:block th:each="friend : ${friends}">
+                    <div class="col-md-3 me-3">
+                        <div class="friend-card border">
+                            <img th:src="${friend.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': friend.avatar}"
+                                 alt="">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${friend.fullName}">FullName</h5>
+                                <a th:href="@{'/profile/' + ${friend.id}}" class="fw-bold btn-confirm" >View profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

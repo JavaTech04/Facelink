@@ -3,16 +3,23 @@
     <div class="mt-3 p-1">
         <b class="text-secondary">Your Pages and profiles</b>
         <p class="fw-bold mb-3 mt-3">
-            <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
-                 class="rounded-circle" alt="..." width="40px">
-            [[${#authentication.principal.account.accountInfo.fullName}]]
+            <a style="text-decoration: none; color: black; cursor: pointer" th:href="@{/profile}">
+                <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
+                     class="rounded-circle" alt="..." width="40px">
+                [[${#authentication.principal.account.accountInfo.fullName}]]
+            </a>
         </p>
         <hr>
         <b class="text-secondary">Contacts</b>
         <th:block th:each="friend : ${listFriends}">
-            <p class="fw-bold mt-3 mb-3"><img
-                    th:src="@{${friend.friendInfo.accountInfo.avatar}}"
-                    class="rounded-circle" alt="..." width="40px"> [[${friend.friendInfo.accountInfo.fullName}]]</p>
+            <p class="fw-bold mt-3 mb-3 ">
+                <a style="text-decoration: none; color: black; cursor: pointer"
+                   th:href="@{'/profile/' + ${friend.friendInfo.id}}">
+                    <img th:src="@{${friend.friendInfo.accountInfo.avatar}}" class="rounded-circle" alt="..."
+                         width="40px">
+                    [[${friend.friendInfo.accountInfo.fullName}]]
+                </a>
+            </p>
         </th:block>
         <hr>
     </div>
