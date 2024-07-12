@@ -116,3 +116,33 @@ nav {
     margin-left: 10px;
     text-align: center;
 }
+
+.upload-container {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+#displayImage {
+    display: none;
+    position: relative;
+}
+#imageContainer {
+    position: relative;
+}
+#deleteImage {
+    position: absolute;
+    top: 0;
+    right: 150px;
+    display: none;
+}
+
+#displayVideo {
+    display: none;
+    position: relative;
+}
+#videoContainer {
+    position: relative;
+}
+#deleteVideo {
+    display: none;
+}

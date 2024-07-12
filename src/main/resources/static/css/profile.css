@@ -138,3 +138,17 @@
     margin-bottom: 20px;
 }
 
+
+.camera-button {
+    position: absolute;
+    top: 40vh;
+    right: 55vh;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 50%;
+    color: white;
+}
+
+.camera-button i {
+    font-size: 16px;
+}

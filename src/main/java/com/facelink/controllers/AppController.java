@@ -2,6 +2,7 @@ package com.facelink.controllers;
 
 import com.facelink.dto.CustomUser;
 import com.facelink.entity.AccountInfo;
+import com.facelink.entity.Post;
 import com.facelink.service.AuthenticationService;
 import com.facelink.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +30,26 @@ public class AppController {
         }
     }
 
+    @ModelAttribute("post")
+    public Post post() {
+        return new Post();
+    }
+
     @ModelAttribute("relationships")
     public List<?> getRelationships(){
         return this.userService.getRelationships();
     }
 
     @GetMapping
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("listPost", this.userService.getPostsPublic());
         return "user/home";
     }
 
     @GetMapping("/profile")
     public String profile(Model model) {
         model.addAttribute("info", this.userService.getInfo());
+        model.addAttribute("listPost", this.userService.getPostsProfile(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId()));
         model.addAttribute("accountInfo", ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getAccountInfo());
         return "user/profile";
     }
@@ -51,6 +59,7 @@ public class AppController {
         model.addAttribute("hasFriend", this.userService.hasFriend(id));
         model.addAttribute("listFriendsViewProfile", this.userService.getFriends(id));
         model.addAttribute("info", this.authenticationService.findAccountById(id));
+        model.addAttribute("listPost", this.userService.getPostsProfile(id));
         return "user/viewProfile";
     }
 
@@ -62,6 +71,12 @@ public class AppController {
     @PostMapping("/profile/updateBio")
     public String updateBio(@RequestParam("bio") String bio){
         this.userService.updateBio(bio);
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/profile/updateAvatar")
+    public String updateAvatar(@RequestParam("avatar") String avatar){
+        this.userService.updateAvatar(avatar);
         return "redirect:/profile";
     }
 
@@ -114,5 +129,11 @@ public class AppController {
     @GetMapping("/demo")
     public String demo() {
         return "user/demo";
+    }
+
+    @PostMapping("/post")
+    public String post(@ModelAttribute("post") Post post) {
+        this.userService.postNew(post);
+        return "redirect:/";
     }
 }

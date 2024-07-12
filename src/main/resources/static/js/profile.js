@@ -1,64 +1,52 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const followerCountSpan = document.getElementById('followerCount');
-    let followerCount = parseInt(followerCountSpan.innerText);
-
-    function formatFollowers(count) {
-        if (count >= 1000000) {
-            return (count / 1000000).toFixed(1) + 'M';
-        } else if (count >= 1000) {
-            return (count / 1000).toFixed(1) + 'k';
-        } else {
-            return count;
-        }
+document.getElementById('formFile').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('avatarImage').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
     }
-
-    followerCountSpan.innerText = formatFollowers(followerCount);
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const followerCountSpan = document.getElementById('followingCount');
-    let followingCount = parseInt(followerCountSpan.innerText);
-
-    function formatFollowers(count) {
-        if (count >= 1000000) {
-            return (count / 1000000).toFixed(1) + 'M';
-        } else if (count >= 1000) {
-            return (count / 1000).toFixed(1) + 'k';
-        } else {
-            return count;
-        }
-    }
-
-    followerCountSpan.innerText = formatFollowers(followingCount);
 });
 
-const editDetailsSubmit = () => {
-    document.getElementById('editDetails').submit()
-}
+const uploadImageProfile = async (image) => {
+    try {
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "qh49wlsn");
+        formData.append("cloud_name", "dswqplrdx");
 
-document.getElementById('btn-edit').addEventListener('click', () => {
-    const divShow = document.getElementById('div-show');
-    const inputShow = document.getElementById('input-show');
-    const btnEdit = document.getElementById('btn-edit');
-    const divControl = document.getElementById('div-control');
+        const response = await axios.post("https://api.cloudinary.com/v1_1/dswqplrdx/image/upload", formData);
+        // const response = await axios.post("https://api.cloudinary.com/v1_1/dswqplrdx/video/upload", formData);
 
-    divShow.style.display = 'none';
-    inputShow.style.display = '';
-    btnEdit.style.display = 'none';
-    divControl.style.display = 'flex'
-})
+        return response.data.secure_url;
+    } catch (error) {
+        console.error("Error uploading image:", error);
+        throw error;
+    }
+};
 
-document.getElementById('btn-cancel').addEventListener('click', () => {
-    const divShow = document.getElementById('div-show');
-    const inputShow = document.getElementById('input-show');
-    const btnEdit = document.getElementById('btn-edit');
-    const divControl = document.getElementById('div-control');
+document.getElementById('save-avatar').addEventListener('click', async function() {
+    const button = document.getElementById('save-avatar');
+    const saveText = document.getElementById('save-text');
+    const saveLoader = document.getElementById('save-loader');
 
-    divShow.style.display = 'block';
-    inputShow.style.display = 'none';
-    btnEdit.style.display = '';
-    divControl.style.display = 'none'
-})
+    saveText.classList.add('visually-hidden');
+    saveLoader.classList.remove('d-none');
 
-document.getElementById('btn-save').addEventListener('click', () => {
-    document.getElementById('updateBio').submit()
-})
+
+    const fileInput = document.getElementById('formFile');
+    const file = fileInput.files[0];
+    if (file) {
+        try {
+            const imageUrl = await uploadImageProfile(file);
+            console.log('Uploaded image URL:', imageUrl);
+            document.getElementById('avatarImage').src = imageUrl;
+            document.getElementById('avatarInput').value = imageUrl;
+            document.getElementById('submit-avatar').submit()
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+    }
+});
+

@@ -10,19 +10,26 @@
         <div>
             <img src="https://th.bing.com/th/id/OIP.0PoDOSn6cnaaRwxnK0SqaAHaEK?rs=1&pid=ImgDetMain" class="cover-photo"
                  alt="Cover Photo">
+            <button class="camera-button" onclick="alert('Coming soon!')">
+                <i class="bi bi-camera"></i>
+            </button>
         </div>
         <div class="profile-header">
             <div style="position: relative;">
                 <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
                      class="profile-pic" alt="Profile Picture">
-                <img src="https://icons.iconarchive.com/icons/iconsmind/outline/512/Camera-icon.png" class="camera-icon"
-                     alt="Camera Icon" width="24px">
+                <button class="border-0 camera-icon" style="margin-right: -20px" type="button" data-bs-toggle="modal"
+                        data-bs-target="#avatar">
+                    <img src="https://icons.iconarchive.com/icons/iconsmind/outline/512/Camera-icon.png"
+                         class="camera-icon"
+                         alt="Camera Icon" width="24px">
+                </button>
             </div>
             <div class="profile-info">
                 <h1>[[${#authentication.principal.account.accountInfo.fullName}]] <i
                         th:if="${#authentication.principal.account.verifiedAccount}"
                         class="text-primary bi bi-patch-check-fill"></i></h1>
-                <p class="location" th:unless="${info.otherName == null}">
+                <p class="location" th:unless="${info.otherName == null or info.otherName.isEmpty()}">
                     ([[${info.otherName}]])</p>
                 <p class="followers"><span id="followerCount">[[${#authentication.principal.account.accountDetails.followers}]]</span>
                     followers • <span id="followingCount">[[${#authentication.principal.account.accountDetails.following}]]</span>
@@ -48,7 +55,8 @@
                         <div id="div-show" style="display: block"
                              th:text="${info.bio}">Bio
                         </div>
-                        <textarea style="display: none" id="input-show" name="bio" class="form-control border-0 bg-transparent" placeholder="Bio"
+                        <textarea style="display: none" id="input-show" name="bio"
+                                  class="form-control border-0 bg-transparent" placeholder="Bio"
                                   th:text="${info.bio}"></textarea>
                     </div>
                     <div class="d-grid gap-2 mt-3">
@@ -71,18 +79,18 @@
                 <hr>
                 <ul class="details">
                     <li><i class="bi bi-info-circle-fill text-secondary"></i><span>Profile · Public figure</span></li>
-                    <li th:unless="${info.work == null}"><i
+                    <li th:unless="${info.work == null or info.work.isEmpty()}"><i
                             class="bi bi-briefcase-fill text-secondary"></i><span>Works at <strong
                             th:text="${info.work}">Work</strong></span></li>
-                    <li th:unless="${info.education == null}"><i
+                    <li th:unless="${info.education == null or info.education.isEmpty()}"><i
                             class="bi bi-building-fill text-secondary"></i><span>Studies at <strong
                             th:text="${info.education}">Education</strong></span>
                     </li>
-                    <li th:unless="${info.currentCity == null}"><i
+                    <li th:unless="${info.currentCity == null or info.currentCity.isEmpty()}"><i
                             class="bi bi-house-door-fill text-secondary"></i><span>Lives in <strong
                             th:text="${info.currentCity}">CurrentCity</strong></span>
                     </li>
-                    <li th:unless="${info.hometown == null}"><i
+                    <li th:unless="${info.hometown == null or info.hometown.isEmpty()}"><i
                             class="bi bi-geo-alt-fill text-secondary"></i><span>From <strong
                             th:text="${info.hometown}">From</strong></span>
                     </li>
@@ -92,7 +100,7 @@
                     </li>
                     <li class="d-grid gap-2 mt-3">
                         <button type="button" class="btn fw-bold border border-light-subtle" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
+                                data-bs-target="#ediDetailMoal">
                             Edit details
                         </button>
                     </li>
@@ -100,123 +108,44 @@
             </div>
         </div>
         <div class="col-8">
-            <div class="mb-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded p-2 mt-3">
-                <div class="profile-container mb-2">
-                    <img src="https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-1/446732501_1658022081613061_7024694374018705809_n.jpg?stp=dst-jpg_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=50d2ac&_nc_ohc=g_uMphr0BXcQ7kNvgHkIoPQ&_nc_ht=scontent.fhan20-1.fna&oh=00_AYDIPjYmR9TM3JN8c7goC3XEVR2gAWrU_Nb9iiOfmuCmVw&oe=6692DF66"
-                         class="rounded-circle" alt="..." width="40px">
-                    <div class="profile-text">
-                        <p class="fw-bold mb-0">Nong Hoang Vu <i class="text-primary bi bi-patch-check-fill"></i></p>
-                        <p class="text-muted text-start small mb-0">2 day a go.</p>
+           <div th:if="${listPost.isEmpty()}" style="height: 1000px;"></div>
+            <th:block th:each="p : ${listPost}">
+                <div class="mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded p-3">
+                    <div class="profile-container mb-2">
+                        <img th:src="${p.account.accountInfo.avatar}"
+                             class="rounded-circle" alt="..." width="40px">
+                        <div class="profile-text text-start">
+                            <p class="fw-bold mb-0">[[${p.account.accountInfo.fullName}]] <i th:if="${p.account.verifiedAccount}" class="text-primary bi bi-patch-check-fill"></i>
+                            </p>
+                            <p class="text-muted text-start small mb-0" th:text="${p.createDate}">Create Date</p>
+                        </div>
+                    </div>
+                    <p th:text="${p.content}">
+                        Content
+                    </p>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img th:src="${p.urlImage}"
+                             class="rounded d-block" alt="..." width="50%">
+                    </div>
+                    <div class="row border-top d-flex p-2 mt-3">
+                        <div class="col">
+                            109K <i class="bi bi-hand-thumbs-up"></i> Like
+                        </div>
+                        <div class="col">
+                            43.7K <i class="bi bi-chat"></i> Comment
+                        </div>
+                        <div class="col">
+                            3.6K <i class="bi bi-share"></i> Share
+                        </div>
                     </div>
                 </div>
-                <p> Vì ngày xưa ấy nghĩ rằng tay trong tay | còn gì đau hơn chữ đã từng...!</p>
-                <div class="d-flex justify-content-center align-items-center">
-                    <iframe class="rounded d-block" width="100%" height="310"
-                            src="https://res.cloudinary.com/dswqplrdx/video/upload/v1720631702/gn9tlfd7xjwmpv1pqlyt.mp4"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>>
-                    </iframe>
-                </div>
-                <div class="row border-top d-flex p-2 mt-3">
-                    <div class="col">
-                        102 <i class="bi bi-hand-thumbs-up"></i> Like
-                    </div>
-                    <div class="col">
-                        58 <i class="bi bi-chat"></i> Comment
-                    </div>
-                    <div class="col">
-                        8 <i class="bi bi-share"></i> Share
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded p-3">
-                <div class="profile-container mb-2">
-                    <img src="https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-1/446732501_1658022081613061_7024694374018705809_n.jpg?stp=dst-jpg_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=50d2ac&_nc_ohc=g_uMphr0BXcQ7kNvgHkIoPQ&_nc_ht=scontent.fhan20-1.fna&oh=00_AYDIPjYmR9TM3JN8c7goC3XEVR2gAWrU_Nb9iiOfmuCmVw&oe=6692DF66"
-                         class="rounded-circle" alt="..." width="40px">
-                    <div class="profile-text">
-                        <p class="fw-bold mb-0">Nong Hoang Vu <i class="text-primary bi bi-patch-check-fill"></i></p>
-                        <p class="text-muted text-start small mb-0">April 13, 2023</p>
-                    </div>
-                </div>
-                <p>
-                    Gửi Em!
-                    Thật ra Anh không biết vì sao Anh lại thương Em nhiều đến thế. Ngoài Em ra thì tất cả các cô gái
-                    khác,
-                    Anh đều không hứng thú. Không phải Anh luỵ, mà vì ngay lúc đó tâm trí Anh chỉ có hình bóng mình Em.
-                    Hiện
-                    tại Anh rất thương Em và Em là người duy nhất mà Anh muốn đặt hết tất cả tình cảm. Anh chỉ muốn được
-                    bên
-                    Em mãi mãi đến sau này.
-                    Yêu Em!
-                </p>
-                <div class="d-flex justify-content-center align-items-center">
-                    <img src="https://scontent.fhan2-5.fna.fbcdn.net/v/t39.30808-6/449705773_2238766793135231_2207410089507836897_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=N92pPMwMzEMQ7kNvgE0q_hF&_nc_ht=scontent.fhan2-5.fna&oh=00_AYCGGrGOkZF1sXICnfyx5NEXSUEW3xiZpF26C-la9itezQ&oe=66930F98"
-                         class="rounded d-block" alt="..." width="50%">
-                </div>
-                <div class="row border-top d-flex p-2 mt-3">
-                    <div class="col">
-                        109K <i class="bi bi-hand-thumbs-up"></i> Like
-                    </div>
-                    <div class="col">
-                        43.7K <i class="bi bi-chat"></i> Comment
-                    </div>
-                    <div class="col">
-                        3.6K <i class="bi bi-share"></i> Share
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded p-3">
-                <div class="profile-container mb-2">
-                    <img src="https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-1/446732501_1658022081613061_7024694374018705809_n.jpg?stp=dst-jpg_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=50d2ac&_nc_ohc=g_uMphr0BXcQ7kNvgHkIoPQ&_nc_ht=scontent.fhan20-1.fna&oh=00_AYDIPjYmR9TM3JN8c7goC3XEVR2gAWrU_Nb9iiOfmuCmVw&oe=6692DF66"
-                         class="rounded-circle" alt="..." width="40px">
-                    <div class="profile-text">
-                        <p class="fw-bold mb-0">Nong Hoang Vu <i class="text-primary bi bi-patch-check-fill"></i></p>
-                        <p class="text-muted text-start small mb-0">July 7 at 4:50PM</p>
-                    </div>
-                </div>
-                <p>
-                    Thân gửi cậu, người sắp bước vào cuộc đời tớ...
-                    Cậu biết không, tớ đã từng có một tình yêu rất đẹp nhưng trái tim tớ rồi lại tan vỡ. Dù vậy tớ vẫn
-                    tin
-                    tưởng sẽ có một ai đó bước vào cuộc đời tớ, yêu thương chính những khuyết điểm của tớ.
-                    Chuyện gì cũng không khiến tớ gục ngã. Không phải không khóc mà dù có đau hay mệt mỏi thì ngày hôm
-                    sau,
-                    tớ vẫn sẽ vui vẻ đi học, đi làm.
-                    Tớ cũng sợ bản thân bị tổn thương nên tớ luôn thận trọng hơn với mọi thứ. Mong cậu sẽ nhẫn nại với
-                    tớ vì
-                    đến khi tớ đặt lòng tin vào cậu thì tớ sẽ tin bất chấp. Tớ có thể tự đi ăn, tự đi chơi, tự mua thuốc
-                    khi
-                    ốm nhưng tớ cũng rất muốn được yêu, được thương cậu à.
-                    Tớ đang cố gắng hoàn thiện bản thân từng ngày để xứng đáng với mọi thứ trong cuộc sống này. Nếu cậu
-                    cũng
-                    vậy thì hãy đi cùng nhau nha. Tớ mong muốn một mối quan hệ "date to marry". Cậu bước vào cuộc sống
-                    tớ
-                    rồi, vậy chúng ta có thể đi cùng nhau một đoạn đường dài không?
-                    Tớ sẽ yêu cậu bằng tất cả những gì tớ có.
-                </p>
-                <div class="d-flex justify-content-center align-items-center">
-                    <img src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/448830754_1099010231579177_3332722654944638905_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=bk6zXzKCXvYQ7kNvgE5-9x_&_nc_ht=scontent.fhan2-4.fna&oh=00_AYAKTPfu0ZsASUj8XQE-PR4sAQvs8diFXld47p9hRWre-Q&oe=66930159"
-                         class="rounded d-block" alt="..." width="50%">
-                </div>
-                <div class="row border-top d-flex p-3 mt-3">
-                    <div class="col">
-                        2.8M <i class="bi bi-hand-thumbs-up"></i> Like
-                    </div>
-                    <div class="col">
-                        3.2M <i class="bi bi-chat"></i> Comment
-                    </div>
-                    <div class="col">
-                        43M <i class="bi bi-share"></i> Share
-                    </div>
-                </div>
-            </div>
+            </th:block>
         </div>
     </div>
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal Edit Details-->
+    <div class="modal fade" id="ediDetailMoal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <form class="modal-dialog" method="post" th:action="@{/profile/update}" id="editDetails"
               th:object="${accountInfo}">
             <input type="hidden" th:field="*{id}">
@@ -281,6 +210,40 @@
                 </div>
             </div>
         </form>
+    </div>
+
+    <!--    Edit Avatar-->
+    <div class="modal fade" id="avatar" tabindex="-1" aria-labelledby="avatar" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="title">Choose profile picture</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <img id="avatarImage"
+                             th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
+                             class="rounded-circle" alt="avatar" width="200px" height="200px">
+                    </div>
+                    <div class="mt-5">
+                        <input class="form-control" type="file" id="formFile" accept="image/*, video/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form th:action="@{/profile/updateAvatar}" method="post" id="submit-avatar">
+                        <input type="hidden" name="avatar" id="avatarInput">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <!--                        <button id="save-avatar" type="button" class="btn btn-primary">Save</button>-->
+                        <button id="save-avatar" type="button" class="btn btn-primary" onclick="handleSaveClick()">
+                            <span id="save-text">Save</span>
+                            <span id="save-loader" class="spinner-border spinner-border-sm d-none" role="status"
+                                  aria-hidden="true"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 </body>

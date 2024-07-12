@@ -1,17 +1,19 @@
 package com.facelink.service;
 
 import com.facelink.dto.CustomUser;
-import com.facelink.entity.Account;
-import com.facelink.entity.AccountInfo;
-import com.facelink.entity.ListFriend;
-import com.facelink.entity.Role;
+import com.facelink.entity.*;
+import com.facelink.enums.PostAudience;
+import com.facelink.enums.TypePost;
 import com.facelink.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +30,9 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     @Autowired
     private RelationShipRepository relationShipRepository;
@@ -104,5 +109,38 @@ public class UserService {
     public void updateBio(String bio){
         Account account = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
         this.accountInfoRepository.updateBio(account.getAccountInfo().getId(), bio);
+    }
+
+    public void updateAvatar(String url){
+        Account a = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
+        this.accountInfoRepository.updateAvatar(a.getAccountInfo().getId(), url);
+
+        CustomUser customUser = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account account = customUser.getAccount();
+        account.getAccountInfo().setAvatar(url);
+        UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(
+                customUser, customUser.getPassword(), customUser.getAuthorities());
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(newAuthentication);
+        SecurityContextHolder.setContext(context);
+    }
+
+    public void postNew(Post getPost){
+        Post post = Post.builder()
+                .type(TypePost.CONTENT_IMAGE)
+                .content(getPost.getContent())
+                .urlImage(getPost.getUrlImage())
+                .postAudience(PostAudience.PUBLIC)
+                .createDate(LocalDateTime.now())
+                .account(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount())
+                .build();
+        this.postRepository.save(post);
+    }
+
+    public List<?> getPostsProfile(Long id){
+        return this.postRepository.getPostByAccount(id);
+    }
+    public List<?> getPostsPublic(){
+        return this.postRepository.getPostsPublic(PostAudience.PUBLIC);
     }
 }

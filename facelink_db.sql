@@ -34,7 +34,7 @@ CREATE TABLE relationships (
 CREATE TABLE accountInfo (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     account_id BIGINT,
-		bio NVARCHAR(500),
+		bio LONGTEXT,
 		cover_photo NVARCHAR(500),
     avatar NVARCHAR(500),
 		first_name NVARCHAR(20),
@@ -68,6 +68,19 @@ CREATE TABLE listFriends(
 	status INT,
 	FOREIGN KEY (friend_info) REFERENCES accounts(id)
 );
+CREATE TABLE posts(
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+	type NVARCHAR(30),
+	content LONGTEXT,
+	url_image LONGTEXT,
+	url_video LONGTEXT,
+	post_audience NVARCHAR(20),
+	create_date DATETIME,
+	account_id BIGINT,
+	FOREIGN KEY (account_id) REFERENCES accounts(id)
+);
+ALTER TABLE posts MODIFY content TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- Insert data
 -- Insert data into roles
 INSERT INTO roles (role_name) VALUES ('ADMIN'), ('USER'), ('GUEST');
