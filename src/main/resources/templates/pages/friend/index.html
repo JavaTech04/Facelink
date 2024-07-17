@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout/main/layout::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Friend</title>
+</head>
+<body>
+<main>
+    <div class="container-fluid">
+        <div class="container mt-3" style="margin-bottom: 100px">
+            <span th:if="${!friendRequests.isEmpty()}" class="mt-4 fw-bold h5">Friend Requests</span>
+            <div class="row">
+                <th:block th:each="friend : ${friendRequests}">
+                    <div class="col-md-3 me-5">
+                        <div class="friend-card shadow p-3 mb-5 bg-body-tertiary rounded">
+                            <img style="cursor: pointer"
+                                 th:onclick="'window.location.href=\'/profile/' + ${friend.id} + '\''"
+                                 th:src="${friend.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': friend.accountInfo.avatar}"
+                                 alt="">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${friend.accountInfo.fullName}">FullName</h5>
+                                <div>
+                                    <button th:onclick="'window.location.href=\'/friends/confirm/' + ${friend.id} + '\''" style="width: 100%"
+                                       class="fw-bold btn btn-primary"><i class="bi bi-person-check-fill"></i>
+                                        Confirm</button>
+                                    <a th:onclick="'window.location.href=\'/friends/cancel/' + ${friend.id} + '\''" class="fw-bold btn border mt-2" style="width: 100%"><i
+                                            class="bi bi-person-check-fill"></i> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+            <hr th:unless="${friendRequests.isEmpty()}">
+            <span class="mt-3 fw-bold h5">People you may know</span>
+            <div class="row">
+                <th:block th:each="friend : ${friends}">
+                    <div class="col-md-3 me-5">
+                        <div class="friend-card border">
+                            <img th:src="${friend.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': friend.avatar}"
+                                 th:onclick="'window.location.href=\'/profile/' + ${friend.id} + '\''" style="cursor: pointer">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${friend.fullName}">FullName</h5>
+                                <button th:onclick="'window.location.href=\'/profile/' + ${friend.id} + '\''" class="fw-bold btn btn-outline-dark" style="width: 100%">View profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

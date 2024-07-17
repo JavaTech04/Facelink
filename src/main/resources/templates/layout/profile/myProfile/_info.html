@@ -1,0 +1,92 @@
+<html lang="en" th:fragment="info">
+<div class="col-4">
+    <div class="profile-card">
+        <div class="intro">Intro</div>
+        <form th:action="@{/profile/updateBio}" method="post" id="updateBio">
+            <div class="bio text-center">
+                <div id="div-show" style="display: block"
+                     th:text="${info.bio}">Bio
+                </div>
+                <textarea style="display: none" id="input-show" name="bio"
+                          class="form-control border-0 bg-transparent" placeholder="Bio"
+                          th:text="${info.bio}"></textarea>
+            </div>
+            <div class="d-grid gap-2 mt-3">
+                <button id="btn-edit" type="button" class="btn fw-bold border border-light-subtle">Edit bio
+                </button>
+                <div id="div-control" class="row" style="display: none">
+                    <div class="col-6 d-grid gap-2 mt-3">
+                        <button id="btn-cancel" type="button"
+                                class="btn fw-bold border border-light-subtle">
+                            Cancel
+                        </button>
+                    </div>
+                    <div class="col-6 d-grid gap-2 mt-3">
+                        <button id="btn-save" type="button" class="btn fw-bold border border-light-subtle">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <ul class="details">
+            <li><i class="bi bi-info-circle-fill text-secondary"></i><span>Profile · Public figure</span>
+            </li>
+            <li th:unless="${info.work == null or info.work.isEmpty()}"><i
+                    class="bi bi-briefcase-fill text-secondary"></i><span>Works at <strong
+                    th:text="${info.work}">Work</strong></span></li>
+            <li th:unless="${info.education == null or info.education.isEmpty()}"><i
+                    class="bi bi-building-fill text-secondary"></i><span>Studies at <strong
+                    th:text="${info.education}">Education</strong></span>
+            </li>
+            <li th:unless="${info.currentCity == null or info.currentCity.isEmpty()}"><i
+                    class="bi bi-house-door-fill text-secondary"></i><span>Lives in <strong
+                    th:text="${info.currentCity}">CurrentCity</strong></span>
+            </li>
+            <li th:unless="${info.hometown == null or info.hometown.isEmpty()}"><i
+                    class="bi bi-geo-alt-fill text-secondary"></i><span>From <strong
+                    th:text="${info.hometown}">From</strong></span>
+            </li>
+            <li th:unless="${info.relationship == null}"><i
+                    class="bi bi-heart-fill text-secondary"></i><span
+                    th:text="${info.relationship.statusName}">Relationship</span>
+            </li>
+            <li class="d-grid gap-2 mt-3">
+                <button type="button" class="btn fw-bold border border-light-subtle" data-bs-toggle="modal"
+                        data-bs-target="#ediDetailMoal">
+                    Edit details
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="profile-card" th:unless="${listPost.isEmpty()}">
+        <div class="row row-cols-3">
+            <div class="fw-bold h5 col-12 ">Photos</div>
+            <th:block th:each="p, iterStat : ${listPost}">
+                <div th:if="${iterStat.index < 9 and p.type.name() eq 'CONTENT_IMAGE'}"
+                     class="col text-center mt-2">
+                    <img width="110px" height="110px" style="cursor: pointer"
+                         th:src="@{${p.urlImage}}"
+                         class="rounded mx-auto d-block">
+                </div>
+            </th:block>
+        </div>
+    </div>
+    <div class="profile-card" th:unless="${listFriends.isEmpty()}">
+        <div class="row row-cols-3">
+            <div class="fw-bold h5 col-12 ">Friends</div>
+            <div class="mb-3 fw-medium col-12 ">[[${listFriends.size()}]] friends</div>
+            <th:block th:each="friend, iterStat : ${listFriends}">
+                <div th:if="${iterStat.index < 9}" class="col text-center mt-3">
+                    <img width="100px" height="100px" style="cursor: pointer"
+                         th:onclick="'window.location.href=\'/profile/' + ${friend.friendInfo.id} + '\''"
+                         th:src="@{${friend.friendInfo.accountInfo.avatar}}"
+                         th:alt="${friend.friendInfo.accountInfo.fullName}"
+                         class="rounded mx-auto d-block">
+                    <div class="text-start fw-medium">[[${friend.friendInfo.accountInfo.fullName}]]</div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</div>

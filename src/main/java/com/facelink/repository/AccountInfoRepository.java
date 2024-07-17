@@ -27,4 +27,9 @@ public interface AccountInfoRepository extends JpaRepository<AccountInfo, Long> 
     @Transactional
     @Query("UPDATE AccountInfo SET avatar = :url WHERE account.id = :id")
     void updateAvatar(@Param("id") Long id, @Param("url") String url);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE AccountInfo SET coverPhoto = :url WHERE account.id = :id")
+    void updateCoverPhoto(@Param("id") Long id, @Param("url") String url);
 }

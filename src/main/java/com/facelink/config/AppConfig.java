@@ -49,7 +49,7 @@ public class AppConfig {
                 )
                 .rememberMe(rememberMe -> rememberMe
                         .key("AbcdEfghIjklmNopQrsTuvXyz_0123456789")
-                        .tokenValiditySeconds(120)
+                        .tokenValiditySeconds(120 * 120)
                 )
                 .userDetailsService(this.userDetailsService)
         ;

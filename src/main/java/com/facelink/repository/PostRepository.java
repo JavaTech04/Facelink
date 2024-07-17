@@ -14,6 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("FROM Post WHERE account.id = :id ORDER BY createDate DESC ")
     List<?> getPostByAccount(@Param("id") Long id);
 
-    @Query("FROM Post WHERE postAudience = :postAudience ORDER BY createDate DESC ")
+    @Query("FROM Post WHERE postAudience = :postAudience ORDER BY RAND()")
     List<?> getPostsPublic(@Param("postAudience") PostAudience postAudience);
 }

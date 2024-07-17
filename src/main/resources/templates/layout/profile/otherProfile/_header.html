@@ -1,0 +1,60 @@
+<html lang="en" th:fragment="header">
+<div class="profile-header">
+    <div style="position: relative;">
+        <img th:src="${info.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': info.accountInfo.avatar}"
+             class="profile-pic" alt="Profile Picture">
+    </div>
+    <div class="profile-info">
+        <h1>[[${info.accountInfo.fullName}]]
+            <i th:if="${info.verifiedAccount}" class="text-primary bi bi-patch-check-fill"></i>
+        </h1>
+        <p class="location"
+           th:unless="${info.accountInfo.otherName == null or info.accountInfo.otherName.isEmpty()}">
+            ([[${info.accountInfo.otherName}]])
+        </p>
+        <p class="followers"><span id="followerCount">[[${info.accountDetails.followers}]]</span> followers •
+            <span id="followingCount">[[${info.accountDetails.following}]]</span> following</p>
+        <div class="following">
+            <th:block th:each="friend, iterStat : ${listFriendsViewProfile}">
+                <img th:if="${iterStat.index < 7}" th:src="@{${friend.friendInfo.accountInfo.avatar}}"
+                     th:alt="${friend.friendInfo.accountInfo.fullName}">
+            </th:block>
+            <th:block th:switch="${hasFriend.status}">
+                <th:block th:case="1">
+                    <div class="dropdown me-2">
+                        <button class="btn ms-3 fw-bold" style="background-color: #e4e6eb" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-check-fill"></i> Friends
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{'/friends/unfriend/' + ${info.id}}"><i
+                                    class="bi bi-person-x-fill"></i> Unfriend</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-fill-slash"></i> Block</a>
+                            </li>
+                        </ul>
+                    </div>
+                </th:block>
+                <th:block th:case="0">
+                    <div class="dropdown">
+                        <button class="btn btn-primary border rounded me-2" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-check-fill"></i> Respond
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item"
+                                   th:unless="${#authentication.principal.account.id eq hasFriend.accountId}"
+                                   th:href="@{'/friends/confirm/' + ${info.id}}">Confirm</a></li>
+                            <li><a class="dropdown-item" th:href="@{'/friends/cancel/' + ${info.id}}">Delete
+                                request</a></li>
+                        </ul>
+                    </div>
+                </th:block>
+                <a th:case="*" th:href="@{'/friends/sendRequest/' + ${info.id}}"
+                   class="btn btn-primary border rounded me-2">
+                    <i class="bi bi-person-plus-fill"></i> Add friend</a>
+            </th:block>
+            <button class="btn" style="background-color: #e4e6eb"><i class="bi bi-messenger"></i> Message
+            </button>
+        </div>
+    </div>
+</div>

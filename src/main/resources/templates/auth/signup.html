@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{auth/index::dynamic(~{::div})}">
+<head>
+    <meta charset="UTF-8">
+    <title>SignUp</title>
+</head>
+<body>
+<div>
+    <script th:if="${error}">
+        alert("Please try again!")
+    </script>
+    <form method="post" th:action="@{/signup}" th:object="${account}">
+        <div class="mb-3 row">
+            <div class="col-6">
+                <input type="text" th:field="*{accountInfo.firstName}" class="form-control border" name="first_name" id="first_name" placeholder="First name">
+            </div>
+            <div class="col-6">
+                <input type="text" th:field="*{accountInfo.lastName}" class="form-control" name="last_name" id="last_name" placeholder="Last name">
+            </div>
+        </div>
+        <div class="mb-3">
+            <input type="email" th:field="*{email}" class="form-control" name="email" id="email"
+                   placeholder="Email address">
+        </div>
+        <div class="mb-3">
+            <input type="password" th:field="*{password}" class="form-control" name="password" id="password"
+                   placeholder="New password">
+        </div>
+        <div class="mb-3">
+            <label for="date-of-birth" class="form-label text-black-50">Date of birth <i class="bi bi-info-circle-fill"></i></label>
+            <input type="date" th:field="*{accountInfo.dateOfBirth}" class="form-control" name="date-of-birth" id="date-of-birth"
+                   placeholder="Date of birth">
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-black-50">Gender <i class="bi bi-info-circle-fill"></i></label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" th:field="*{accountInfo.gender}" type="radio" name="gender" id="gender-male" value="1">
+                    <label class="form-check-label" for="gender-male">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" th:field="*{accountInfo.gender}" type="radio" name="gender" id="gender-female" value="0">
+                    <label class="form-check-label" for="gender-female">Female</label>
+                </div>
+            </div>
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="create-account-button">Sign up</button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="#" class="forgot-password text-decoration-none">Forgotten password?</a>
+        </div>
+        <hr>
+        <div class="d-grid gap-2">
+            <button type="button" class="btn btn-primary fw-bold h-100" onclick="window.location.href='/login'">Log in
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

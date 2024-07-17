@@ -1,0 +1,208 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f2f5;
+    overflow: hidden;
+}
+
+.main-profile{
+    flex: 1;
+    background-color: transparent;
+    margin-left: 10%;
+    margin-right: 10%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100vh;
+    scrollbar-width: none;
+}
+
+.container-fluid {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+}
+
+.profile-text {
+    margin-left: 10px;
+    text-align: center;
+}
+
+.btn-nav-profile {
+    border: none;
+    background: transparent;
+    margin: 3px;
+    height: 30px;
+    color: #606770;
+}
+
+.btn-nav-profile:hover {
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+}
+
+.profile-header {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-header img.profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+}
+
+.profile-header .profile-info {
+    margin-left: 20px;
+}
+
+.profile-header .profile-info h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.profile-header .profile-info .location {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.profile-header .profile-info .followers {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.profile-header .profile-info .following {
+    display: flex;
+    align-items: center;
+}
+
+.profile-header .profile-info .following img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.camera-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.profile-card {
+    width: 100%;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-card .intro {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.profile-card .bio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.profile-card .bio button {
+    border: none;
+    background: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.profile-card .details {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-card .details li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-card .details li i {
+    margin-right: 10px;
+}
+
+.profile-card .details li span {
+    font-size: 0.9rem;
+}
+
+.post-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post-header img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.post-content {
+    margin-top: 10px;
+}
+
+.cover-photo {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    /*margin-bottom: 20px;*/
+}
+
+
+.camera-button {
+    position: absolute;
+    top: 40vh;
+    right: 55vh;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 50%;
+    color: white;
+}
+
+.camera-button i {
+    font-size: 16px;
+}
+
+.photo-profile-all{
+    width: 200px;
+    height: 200px;
+}

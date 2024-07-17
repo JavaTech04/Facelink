@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout/main/layout::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<main>
+    <div class="p-2 text-start mb-lg-5 mb-lg-5">
+        <div class="d-flex text-start mb-3">
+            <div class="d-flex" id="carouselInner">
+                <div class="story-item">
+                    <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://png.pngtree.com/back_origin_pic/04/49/63/93264d0256697a38a75d1840ea6ef63f.jpg': #authentication.principal.account.accountInfo.avatar}"
+                         alt="Create story">
+                    <a th:href="@{#/create-story}" class="create-story">Create story</a>
+                </div>
+                <div class="story-item">
+                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721044931/frwxjbjf7necprhoebe3.jpg"
+                         alt="...">
+                    <div class="name">Nong Hoang Vu</div>
+                </div>
+                <div class="story-item">
+                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721045030/u9cxsfzvynh6bd1oz9c0.jpg"
+                         alt="...">
+                    <div class="name">Nguyễn Thị Nguyệt</div>
+                </div>
+                <div class="story-item">
+                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721045041/bus3xrdyjbivnwmerpq5.jpg"
+                         alt="...">
+                    <div class="name">Lương Mỹ Lệ</div>
+                </div>
+                <div class="story-item">
+                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721050755/nvxdic1owqdd94nxwrw3.jpg"
+                         alt="...">
+                    <div class="name">Quỳnh Anh</div>
+                </div>
+                <div class="story-item">
+                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721050676/gwbnpaafwyuf2zljokfo.png"
+                         alt="...">
+                    <div class="name">Charlia Puth</div>
+                </div>
+            </div>
+        </div>
+        <form th:action="@{/post}" th:object="${post}" id="post-new" method="post">
+            <div th:if="${#fields.hasErrors()}">
+                <script>
+                    alert('Error something!')
+                </script>
+            </div>
+            <div class="border rounded-3 mb-3 p-4 bg-white row">
+                <div class="row mt-2">
+                    <div class="col-1">
+                        <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
+                             class="rounded-circle" alt="..." width="50px" height="50px">
+                    </div>
+                    <div class="col-11 d-flex justify-content-center align-items-center">
+                        <input th:field="*{content}" class="form-control rounded-pill me-2" style="background-color: #f0f2f5; height: 50px" type="search"
+                               th:placeholder="'What\'s on your mind, ' + ${#authentication.principal.account.accountInfo.firstName} + '?'"
+                               aria-label="Search">
+                        <button class="btn" type="button" id="btn-post">Post</button>
+                    </div>
+                </div>
+                <!--Image-->
+                <div class="d-flex justify-content-center align-items-center p-2" id="imageContainer">
+                    <button type="button" id="deleteImage" class="btn">X</button>
+                    <img id="displayImage" class="rounded" src="" alt="Preview" width="50%">
+                </div>
+                <!--Video-->
+                <div class="d-flex justify-content-center align-items-center p-2" id="videoContainer">
+                    <video id="displayVideo" controls style="width: 80%">
+                        Your browser does not support the video tag.
+                    </video>
+                    <button type="button" id="deleteVideo" class="btn">X</button>
+                </div>
+                <hr class="mb-3">
+                <div class="row text-center">
+                    <div class="col">
+                        <i class="bi bi-camera-reels"></i> Live video
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <div class="upload-container" id="uploadContainer">
+                            <input type="hidden" th:field="*{urlImage}" id="imageInput">
+                            <input type="hidden" th:field="*{urlVideo}" id="videoInput">
+                            <input type="file" id="fileInput" style="display: none" accept="image/*, video/*">
+                            <i class="bi bi-images"></i> Photo/video
+                        </div>
+                    </div>
+                    <div class="col">
+                        <i class="bi bi-gpu-card"></i> Reel
+                    </div>
+                </div>
+            </div>
+        </form>
+        <th:block th:each="p : ${listPost}">
+            <div class="mb-3 shadow-sm p-3 bg-white rounded p-3 row rounded-4">
+                <div class="profile-container mb-2 col-9">
+                    <img th:src="${p.account.accountInfo.avatar}"
+                         style="cursor: pointer"
+                         class="rounded-circle" alt="..." width="40px" height="40px"
+                         th:onclick="'window.location.href=\'/profile/' + ${p.account.id} + '\''">
+                    <div class="profile-text text-start">
+                        <p class="fw-bold mb-0">[[${p.account.accountInfo.fullName}]] <i
+                                th:if="${p.account.verifiedAccount}" class="text-primary bi bi-patch-check-fill"></i>
+                        </p>
+                        <p class="text-muted text-start small mb-0" th:text="${p.createDate}">Create Date</p>
+                    </div>
+                </div>
+                <div class="dropdown col-3 text-end">
+                    <button class="btn btn-link p-0 m-0 text-muted" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul th:if="${#authentication.principal.account.id eq p.account.id}" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" th:href="@{'#' + ${p.id}}"><i class="bi bi-pen"></i> Edit post</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-trash3"></i> Move to trash</a></li>
+                    </ul>
+                    <ul th:unless="${#authentication.principal.account.id eq p.account.id}" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            <p class="nav-tabs ps-3" th:href="@{'#' + ${p.id}}"><i class="bi bi-flag"></i> Report post</p>
+                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Spam</a>
+                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Seems like prostitution</a>
+                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Problem involving someone under 18</a>
+                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Violent, hateful or disturbing content</a>
+                        </li>
+                    </ul>
+                </div>
+                <p th:text="${p.content}">
+                    Content
+                </p>
+                <div class="d-flex justify-content-center align-items-center" th:switch="${p.type.name()}">
+                    <img th:case="CONTENT_IMAGE" th:src="${p.urlImage}"
+                         class="rounded d-block" alt="..." width="50%">
+                    <iframe th:case="CONTENT_VIDEO" class="rounded d-block" width="100%" height="400px"
+                            th:src="${p.urlVideo}"
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope;picture-in-picture"
+                            allowfullscreen>>
+                    </iframe>
+                </div>
+                <div class="row border-top d-flex p-2 mt-3 text-center">
+                    <div class="col">
+                        109K <i class="bi bi-hand-thumbs-up"></i> Like
+                    </div>
+                    <div class="col-4">
+                        43.7K <i class="bi bi-chat"></i> Comment
+                    </div>
+                    <div class="col">
+                        3.6K <i class="bi bi-share"></i> Share
+                    </div>
+                    <div class="col" th:if="${p.type.name() eq 'CONTENT_VIDEO'}">
+                        43M <i class="bi bi-eye"></i> View
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</main>
+</body>
+</html>

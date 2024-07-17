@@ -1,0 +1,60 @@
+<html lang="en" th:fragment="info">
+<div class="col-4">
+    <div class="profile-card">
+        <div class="intro">Intro</div>
+        <div class="text-center">
+            <div id="div-show " style="display: block"
+                 th:text="${info.accountInfo.bio}">Bio
+            </div>
+        </div>
+        <hr>
+        <ul class="details">
+            <li><i class="bi bi-info-circle-fill text-secondary"></i><span>Profile · Public figure</span></li>
+            <li th:unless="${info.accountInfo.work == null or info.accountInfo.work.isEmpty()}"><i
+                    class="bi bi-briefcase-fill text-secondary"></i><span>Works at <strong
+                    th:text="${info.accountInfo.work}">Work</strong></span></li>
+            <li th:unless="${info.accountInfo.education == null or info.accountInfo.education.isEmpty()}"><i
+                    class="bi bi-building-fill text-secondary"></i><span>Studies at <strong
+                    th:text="${info.accountInfo.education}">Education</strong></span></li>
+            <li th:unless="${info.accountInfo.currentCity == null or info.accountInfo.currentCity.isEmpty()}"><i
+                    class="bi bi-house-door-fill text-secondary"></i><span>Lives in <strong
+                    th:text="${info.accountInfo.currentCity}">CurrentCity</strong></span></li>
+            <li th:unless="${info.accountInfo.hometown == null or info.accountInfo.hometown.isEmpty()}"><i
+                    class="bi bi-geo-alt-fill text-secondary"></i><span>From <strong
+                    th:text="${info.accountInfo.hometown}">From</strong></span></li>
+            <li th:unless="${info.accountInfo.relationship == null}"><i
+                    class="bi bi-heart-fill text-secondary"></i><span
+                    th:text="${info.accountInfo.relationship.statusName}">Relationship</span></li>
+        </ul>
+    </div>
+
+    <div class="profile-card" th:unless="${listPost.isEmpty()}">
+        <div class="row row-cols-3">
+            <div class="fw-bold h5 col-12 ">Photos</div>
+            <th:block th:each="p, iterStat : ${listPost}">
+                <div th:if="${iterStat.index < 9 and p.type.name() eq 'CONTENT_IMAGE'}" class="col text-center mt-2">
+                    <img width="110px" height="110px" style="cursor: pointer"
+                         th:src="@{${p.urlImage}}"
+                         class="rounded mx-auto d-block">
+                </div>
+            </th:block>
+        </div>
+    </div>
+
+    <div class="profile-card" th:unless="${listFriendsViewProfile.isEmpty()}">
+        <div class="row row-cols-3">
+            <div class="fw-bold h5 col-12 ">Friends</div>
+            <div class="mb-3 fw-medium col-12 ">[[${listFriendsViewProfile.size()}]] friends</div>
+            <th:block th:each="friend, iterStat : ${listFriendsViewProfile}">
+                <div th:if="${iterStat.index < 9}" class="col text-center mb-3">
+                    <img width="100px" height="100px" style="cursor: pointer"
+                         th:onclick="'window.location.href=\'/profile/' + ${friend.friendInfo.id} + '\''"
+                         th:src="@{${friend.friendInfo.accountInfo.avatar}}"
+                         th:alt="${friend.friendInfo.accountInfo.fullName}"
+                         class="rounded mx-auto d-block">
+                    <div class="text-start fw-medium">[[${friend.friendInfo.accountInfo.fullName}]]</div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</div>

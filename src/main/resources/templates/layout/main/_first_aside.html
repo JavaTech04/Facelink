@@ -1,0 +1,15 @@
+<html lang="en" th:fragment="first_aside">
+<aside class="aside-left">
+    <div class="mt-3">
+    <a th:href="@{/profile}" style="cursor: pointer; text-decoration: none; color: black" class="fw-medium"><img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}" class="rounded-circle" alt="..." width="40px" height="40px"> [[${#authentication.principal.account.accountInfo.fullName}]] <i th:if="${#authentication.principal.account.verifiedAccount}" class="text-primary bi bi-patch-check-fill"></i></a>
+    <p style="cursor: pointer" onclick="window.location.href='/friends'" class="fw-medium mb-lg-3 mt-lg-4"><i class="fa-solid fa-user-group h5 p-2"></i> Friends</p>
+    <p class="fw-medium mb-lg-3"><i class="p-2 fa-solid fa-chart-simple h5"></i> Professional dashboard</p>
+    <p class="fw-medium mb-lg-3"><i class="p-2 fa-solid fa-newspaper h5"></i> Feeds</p>
+    <p class="fw-medium mb-lg-3"><i class="p-2 fa-solid fa-people-group h5"></i> Groups</p>
+    <p class="fw-medium mb-lg-3"><i class="p-2 fa-solid fa-store h5"></i> Marketplace</p>
+    <p class="fw-medium mb-lg-3"><i class="p-2 fa-solid fa-star h5"></i> Events</p>
+    <p class="fw-medium mb-lg-3"><i class="p-2 h5 bi bi-messenger"></i> Messenger</p>
+    <p class="fw-medium mb-lg-3"><i class="p-2 fa-solid fa-circle-play h5"></i> Videos</p>
+        <hr>
+    </div>
+</aside>

@@ -3,6 +3,7 @@ package com.facelink.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
@@ -36,9 +37,11 @@ public class AccountInfo {
     @Column(name = "avatar", length = 500)
     private String avatar;
 
+    @Length(min = 2, max = 10)
     @Column(name = "first_name")
     private String firstName;
 
+    @Length(min = 2, max = 20)
     @Column(name = "last_name")
     private String lastName;
 
@@ -48,11 +51,13 @@ public class AccountInfo {
     @Column(name = "other_name", length = 50)
     private String otherName;
 
+    @NonNull
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
+    @NonNull
     @Column(name = "gender")
     private Boolean gender;
 

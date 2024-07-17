@@ -1,0 +1,63 @@
+<html lang="en" th:fragment="posts">
+<div class="row mt-3" id="main-content">
+    <div th:replace="~{layout/profile/otherProfile/_info::info}"></div>
+    <div class="col-8">
+        <div class="shadow-sm p-3 mb-3 bg-gradient rounded">
+            <h4 class="fw-bold text-secondary-emphasis">Posts</h4>
+        </div>
+        <div class="text-center" th:if="${listPost.isEmpty()}" style="height: 1000px;">
+            <h1 class="mt-5 text-secondary">No posts available</h1>
+        </div>
+        <th:block th:each="p : ${listPost}">
+            <div class="mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded p-3 row">
+                <div class="profile-container mb-2 col-9">
+                    <img th:src="${p.account.accountInfo.avatar}"
+                         class="rounded-circle" alt="..." width="40px">
+                    <div class="profile-text text-start">
+                        <p class="fw-bold mb-0">[[${p.account.accountInfo.fullName}]] <i
+                                th:if="${p.account.verifiedAccount}"
+                                class="text-primary bi bi-patch-check-fill"></i>
+                        </p>
+                        <p class="text-muted text-start small mb-0" th:text="${p.createDate}">Create Date</p>
+                    </div>
+                </div>
+                <div class="dropdown col-3 text-end">
+                    <button class="btn btn-link p-0 m-0 text-muted" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" th:href="@{'#' + ${p.id}}"><i class="bi bi-flag"></i>
+                            Report</a></li>
+                    </ul>
+                </div>
+                <p th:text="${p.content}">
+                    Content
+                </p>
+                <div class="d-flex justify-content-center align-items-center" th:switch="${p.type.name()}">
+                    <img th:case="CONTENT_IMAGE" th:src="${p.urlImage}"
+                         class="rounded d-block" alt="..." width="50%">
+                    <iframe th:case="CONTENT_VIDEO" class="rounded d-block" width="100%" height="310"
+                            th:src="${p.urlVideo}"
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope;picture-in-picture"
+                            allowfullscreen>>
+                    </iframe>
+                </div>
+                <div class="row border-top d-flex p-2 mt-3 text-center">
+                    <div class="col">
+                        109K <i class="bi bi-hand-thumbs-up"></i> Like
+                    </div>
+                    <div class="col-4">
+                        43.7K <i class="bi bi-chat"></i> Comment
+                    </div>
+                    <div class="col">
+                        3.6K <i class="bi bi-share"></i> Share
+                    </div>
+                    <div class="col" th:if="${p.type.name() eq 'CONTENT_VIDEO'}">
+                        43M <i class="bi bi-eye"></i> View
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>

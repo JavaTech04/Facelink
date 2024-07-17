@@ -1,0 +1,13 @@
+<html lang="en" th:fragment="photos">
+<div class="col-12">
+    <h4 class="fw-bold text-secondary-emphasis">Photos</h4>
+    <span class="ms-3 fw-medium text-secondary-emphasis">[[${info.accountInfo.firstName}]]'s photo</span>
+    <div class="row row-cols-5 p-3">
+        <th:block th:each="p, iterStat : ${listPost}">
+            <div class="text-center col" th:if="${p.type.name() eq 'CONTENT_IMAGE'}">
+                <img th:src="@{${p.urlImage}}"
+                     class="rounded m-3" alt="..." width="200px" height="200px">
+            </div>
+        </th:block>
+    </div>
+</div>

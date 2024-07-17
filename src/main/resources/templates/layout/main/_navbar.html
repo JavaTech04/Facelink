@@ -1,0 +1,84 @@
+<html lang="en" th:fragment="navbar">
+<nav class="navbar p-0 navbar-expand-lg shadow-none">
+    <div class="container-fluid">
+        <a class="navbar-brand nav-logo" href="#"><img
+                th:src="@{https://bendig-team.de/wp-content/uploads/2020/09/Facebook.png}" width="50px"></a>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2 rounded-pill nav-search" type="search" placeholder="Search Facelink"
+                   aria-label="Search" style="background-color: #f0f2f5; height: 45px; width: 250px">
+        </form>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center w-100">
+                <li class="nav-item me-5 h5 text-center">
+                    <div class="nav-div-item-hover d-flex align-items-center justify-content-center">
+                        <a class="nav-link" aria-current="page" th:href="@{/}"><i class="fa-solid fa-house"></i></a>
+                    </div>
+                </li>
+                <li class="nav-item me-5 h5 text-center">
+                    <div class="nav-div-item-hover d-flex align-items-center justify-content-center">
+                        <a class="nav-link" aria-current="page" th:href="@{/friends}"><i
+                                class="fa-solid fa-user-group"></i></a>
+                    </div>
+                </li>
+                <li class="nav-item me-5 h5 text-center">
+                    <div class="nav-div-item-hover d-flex align-items-center justify-content-center">
+                        <a class="nav-link" aria-current="page" th:href="@{/videos}"><i
+                                class="fa-solid fa-play"></i></a>
+                    </div>
+                </li>
+                <li class="nav-item me-5 h5 text-center">
+                    <div class="nav-div-item-hover d-flex align-items-center justify-content-center">
+                        <a class="nav-link" aria-current="page" th:href="@{/marketplace}"><i
+                                class="fa-solid fa-store"></i></a>
+                    </div>
+                </li>
+                <li class="nav-item me-5 h5 text-center">
+                    <div class="nav-div-item-hover d-flex align-items-center justify-content-center">
+                        <a class="nav-link" aria-current="page" th:href="@{/groups}"> <i class="fa-solid fa-users"></i></a>
+                    </div>
+                </li>
+            </ul>
+            <div class="d-flex p-2">
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item h5 me-2">
+                            <div class="nav-options">
+                                <a class="nav-link text-dark" href="#menu"><i class="fa-solid fa-bars"></i></a>
+                            </div>
+                        </li>
+                        <li class="nav-item h5 me-2">
+                            <div class="nav-options">
+                                <a class="nav-link text-dark" href="#message"><i class="bi bi-messenger"></i></i></a>
+                            </div>
+                        </li>
+                        <li class="nav-item h5 me-2">
+                            <div class="nav-options">
+                                <a class="nav-link text-dark" href="#notification"><i class="fa-solid fa-bell"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dropdown" style="position: static">
+                    <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
+                         class="rounded-circle dropdown-toggle" alt="avatar" width="40px" height="40px"
+                         id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="avatarDropdown">
+                        <li>
+                            <img th:src="${#authentication.principal.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': #authentication.principal.account.accountInfo.avatar}"
+                                 class="rounded-circle dropdown-toggle" alt="avatar" width="40px" height="40px">
+                            <span class="fw-medium">[[${#authentication.principal.account.accountInfo.fullName}]]</span>
+                        </li>
+                        <hr>
+                        <li><a class="dropdown-item fw-medium" th:href="@{/profile}">Profile</a></li>
+                        <li><a class="dropdown-item fw-medium" href="#">Settings</a></li>
+                        <li><a class="dropdown-item fw-medium" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

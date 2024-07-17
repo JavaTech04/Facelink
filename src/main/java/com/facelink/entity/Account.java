@@ -1,7 +1,9 @@
 package com.facelink.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -20,12 +22,15 @@ public class Account {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Email
     @Column(name = "email")
     private String email;
 
+    @Length(min = 10 , max = 14)
     @Column(name = "phone_number", length = 13)
     private String phoneNumber;
 
+    @Length(min = 6)
     @Column(name = "password", length = 150)
     private String password;
 
