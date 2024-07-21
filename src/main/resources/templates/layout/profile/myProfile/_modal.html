@@ -13,26 +13,26 @@
                 <div class="modal-body">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control col-6" id="otherName" placeholder="otherName"
-                               th:field="*{otherName}">
+                               th:field="*{otherName}" maxlength="20">
                         <label for="otherName">Other name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="work" placeholder="work" th:field="*{work}">
+                        <input type="text" class="form-control" id="work" placeholder="work" th:field="*{work}" maxlength="150">
                         <label for="work">Work at</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="student-at" placeholder="education"
-                               th:field="*{education}">
+                               th:field="*{education}" maxlength="200">
                         <label for="student-at">Student at</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="lives-in" placeholder="currentCity"
-                               th:field="*{currentCity}">
+                               th:field="*{currentCity}" maxlength="200">
                         <label for="lives-in">Lives in</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="from" placeholder="hometown"
-                               th:field="*{hometown}">
+                               th:field="*{hometown}" maxlength="200">
                         <label for="from">From</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -84,7 +84,7 @@
                              class="rounded-circle" alt="avatar" width="200px" height="200px">
                     </div>
                     <div class="mt-5">
-                        <input class="form-control" type="file" id="formFile" accept="image/*, video/*">
+                        <input class="form-control" type="file" id="formFile" accept=".jpg, .jpeg, .png">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -117,7 +117,7 @@
                              alt="cover" width="696x" height="200px">
                     </div>
                     <div class="mt-5">
-                        <input class="form-control" type="file" id="formFileCover" accept="image/*, video/*">
+                        <input class="form-control" type="file" id="formFileCover" accept=".jpg, .jpeg, .png">
                     </div>
                 </div>
                 <div class="modal-footer">

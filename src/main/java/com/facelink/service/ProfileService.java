@@ -10,6 +10,8 @@ import com.facelink.repository.PostRepository;
 import com.facelink.repository.RelationShipRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,8 +38,8 @@ public class ProfileService {
         return this.accountInfoRepository.getBio(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
     }
 
-    public List<?> getPostsProfile(Long id) {
-        return this.postRepository.getPostByAccount(id);
+    public Page<?> getPostsProfile(Long id, Pageable pageable) {
+        return this.postRepository.getPostByAccount(id, pageable);
     }
 
     public ListFriend hasFriend(Long userId) {
@@ -60,6 +62,15 @@ public class ProfileService {
         accountInfo.setLastName(account.getAccountInfo().getLastName());
         accountInfo.setFullName(account.getAccountInfo().getFullName());
         this.accountInfoRepository.save(accountInfo);
+
+        CustomUser customUser = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account accountContext = customUser.getAccount();
+        accountContext.getAccountInfo().setOtherName(accountInfo.getOtherName());
+        UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(
+                customUser, customUser.getPassword(), customUser.getAuthorities());
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(newAuthentication);
+        SecurityContextHolder.setContext(context);
     }
 
     public void updateBio(String bio){

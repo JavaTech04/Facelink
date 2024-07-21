@@ -54,10 +54,15 @@
                              class="rounded-circle" alt="..." width="50px" height="50px">
                     </div>
                     <div class="col-11 d-flex justify-content-center align-items-center">
-                        <input th:field="*{content}" class="form-control rounded-pill me-2" style="background-color: #f0f2f5; height: 50px" type="search"
+                        <input th:field="*{content}" class="form-control rounded-pill me-2"
+                               style="background-color: #f0f2f5; height: 50px" type="search"
                                th:placeholder="'What\'s on your mind, ' + ${#authentication.principal.account.accountInfo.firstName} + '?'"
                                aria-label="Search">
                         <button class="btn" type="button" id="btn-post">Post</button>
+                        <div id="loadingSpinner" class="spinner-border text-secondary" role="status"
+                             style="display: none">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
                 </div>
                 <!--Image-->
@@ -91,7 +96,7 @@
                 </div>
             </div>
         </form>
-        <th:block th:each="p : ${listPost}">
+        <th:block th:each="p : ${listPost.content}">
             <div class="mb-3 shadow-sm p-3 bg-white rounded p-3 row rounded-4">
                 <div class="profile-container mb-2 col-9">
                     <img th:src="${p.account.accountInfo.avatar}"
@@ -106,41 +111,48 @@
                     </div>
                 </div>
                 <div class="dropdown col-3 text-end">
-                    <button class="btn btn-link p-0 m-0 text-muted" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-link p-0 m-0 text-muted" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots"></i>
                     </button>
-                    <ul th:if="${#authentication.principal.account.id eq p.account.id}" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" th:href="@{'#' + ${p.id}}"><i class="bi bi-pen"></i> Edit post</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-trash3"></i> Move to trash</a></li>
+                    <ul th:if="${#authentication.principal.account.id eq p.account.id}"
+                        class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" th:href="@{'/view/' + ${p.id} + '?profile=0'}"><i class="bi bi-eye"></i> View</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/delete/' + ${p.id}}"><i class="bi bi-trash3"></i> Move
+                            to trash</a></li>
                     </ul>
-                    <ul th:unless="${#authentication.principal.account.id eq p.account.id}" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <ul th:unless="${#authentication.principal.account.id eq p.account.id}"
+                        class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                         <li>
-                            <p class="nav-tabs ps-3" th:href="@{'#' + ${p.id}}"><i class="bi bi-flag"></i> Report post</p>
-                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Spam</a>
-                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Seems like prostitution</a>
-                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Problem involving someone under 18</a>
-                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Violent, hateful or disturbing content</a>
+                        <li><a class="dropdown-item" th:href="@{'/view/' + ${p.id} + '?profile=0'}"><i class="bi bi-eye"></i> View</a></li>
+                        <p class="nav-tabs ps-3" th:href="@{'#' + ${p.id}}"><i class="bi bi-flag"></i> Report post</p>
+                        <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Spam</a>
+                        <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Seems like prostitution</a>
+                        <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Problem involving someone under 18</a>
+                        <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Violent, hateful or disturbing content</a>
                         </li>
                     </ul>
                 </div>
-                <p th:text="${p.content}">
+                <p th:text="${p.content}" th:onclick="'window.location.href=\'/view/' + ${p.id} + '?profile=0\''" style="cursor: pointer">
                     Content
                 </p>
                 <div class="d-flex justify-content-center align-items-center" th:switch="${p.type.name()}">
                     <img th:case="CONTENT_IMAGE" th:src="${p.urlImage}"
-                         class="rounded d-block" alt="..." width="50%">
-                    <iframe th:case="CONTENT_VIDEO" class="rounded d-block" width="100%" height="400px"
-                            th:src="${p.urlVideo}"
-                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope;picture-in-picture"
-                            allowfullscreen>>
+                         class="rounded d-block" alt="..." width="50%" th:onclick="'window.location.href=\'/view/' + ${p.id} + '?profile=0\''" style="cursor: pointer">
+                    <iframe th:case="CONTENT_VIDEO_LINK" class="rounded d-block" width="100%" height="400px"
+                            th:src="${p.urlVideo}" >
                     </iframe>
+                    <video th:case="CONTENT_VIDEO" class="rounded d-block" width="100%" height="400px" controls>
+                        <source th:src="${p.urlVideo}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
                 <div class="row border-top d-flex p-2 mt-3 text-center">
-                    <div class="col">
-                        109K <i class="bi bi-hand-thumbs-up"></i> Like
+                    <div class="col" th:onclick="'window.location.href=\'/view/' + ${p.id} + '?profile=0\''" style="cursor: pointer">
+                        [[${p.reactions.size()}]] <i class="bi bi-hand-thumbs-up"></i> Like
                     </div>
-                    <div class="col-4">
-                        43.7K <i class="bi bi-chat"></i> Comment
+                    <div class="col-4" th:onclick="'window.location.href=\'/view/' + ${p.id} + '?profile=0\''" style="cursor: pointer">
+                        [[${p.comments.size()}]] <i class="bi bi-chat"></i> Comment
                     </div>
                     <div class="col">
                         3.6K <i class="bi bi-share"></i> Share
@@ -151,6 +163,9 @@
                 </div>
             </div>
         </th:block>
+        <div style="height: 80px" class="text-center">
+            <a class="btn border-0 text-primary" th:href="@{/}">See more</a>
+        </div>
     </div>
 </main>
 </body>

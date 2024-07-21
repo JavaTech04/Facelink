@@ -1,6 +1,7 @@
 package com.facelink.controllers;
 
 import com.facelink.dto.CustomUser;
+import com.facelink.service.AuthenticationService;
 import com.facelink.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +20,20 @@ public class FriendController {
     @Autowired
     private FriendService friendService;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @ModelAttribute("listFriends")
     public Set<?> listFriends() {
         try {
             return this.friendService.getFriends(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
-        }catch (Exception _){
+        }catch (Exception e){
             return null;
         }
+    }
+    @ModelAttribute("isLocked")
+    public boolean isLocked() {
+        return this.authenticationService.accountLocked(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
     }
 
     @GetMapping

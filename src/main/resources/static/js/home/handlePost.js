@@ -3,6 +3,18 @@ document.getElementById('uploadContainer').addEventListener('click', function ()
 });
 document.getElementById('fileInput').addEventListener('change', function (event) {
     const file = event.target.files[0];
+    const isImage = file.type.startsWith('image/');
+    const isVideo = file.type.startsWith('video/');
+    const maxSizeImage = 5 * 1024 * 1024; // 5MB
+    const maxSizeVideo = 10 * 1024 * 1024; // 10MB
+
+    if (isImage && file.size > maxSizeImage) {
+        alert("Photo size must be less than 5MB")
+        return;
+    } else if (isVideo && file.size > maxSizeVideo) {
+        alert("Video size must be less than 10MB")
+        return;
+    }
     if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
@@ -67,22 +79,43 @@ const uploadMedia = async (file) => {
 
 document.getElementById('btn-post').addEventListener('click', async () => {
     const fileInput = document.getElementById('fileInput');
+    const btn = document.getElementById('btn-post');
     const file = fileInput.files[0];
-    if (file) {
-        try {
-            const mediaUrl = await uploadMedia(file);
-            console.log('Uploaded media URL:', mediaUrl);
-            if (file.type.startsWith('image/')) {
-                document.getElementById('imageInput').value = mediaUrl;
-            } else if (file.type.startsWith('video/')) {
-                document.getElementById('videoInput').value = mediaUrl;
-            }
-            document.getElementById('post-new').submit();
-        } catch (error) {
-            alert("Error uploading media");
-            console.error('Error uploading media:', error);
-        }
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    btn.style.display = 'none'
+    loadingSpinner.style.display = 'inline-block';
+
+    const maxSizeImage = 5 * 1024 * 1024; // 5MB
+    const maxSizeVideo = 10 * 1024 * 1024; // 10MB
+
+    if (file && file.type.startsWith('image/') && file.size > maxSizeImage) {
+        alert("Photo size must be less than 5MB")
+        loadingSpinner.style.display = 'none';
+        btn.style.display = 'block'
+        window.location.reload();
+    } else if (file && file.type.startsWith('video/') && file.size > maxSizeVideo) {
+        alert("Video size must be less than 10MB")
+        loadingSpinner.style.display = 'none';
+        btn.style.display = 'block'
+        window.location.reload();
     } else {
-        document.getElementById('post-new').submit();
+        if (file) {
+            try {
+                const mediaUrl = await uploadMedia(file);
+                console.log('Uploaded media URL:', mediaUrl);
+                if (file.type.startsWith('image/')) {
+                    document.getElementById('imageInput').value = mediaUrl;
+                } else if (file.type.startsWith('video/')) {
+                    document.getElementById('videoInput').value = mediaUrl;
+                }
+                document.getElementById('post-new').submit();
+            } catch (error) {
+                alert("Error uploading media");
+                console.error('Error uploading media:', error);
+                loadingSpinner.style.display = 'none';
+            }
+        } else {
+            document.getElementById('post-new').submit();
+        }
     }
 });

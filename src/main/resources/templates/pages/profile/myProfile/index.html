@@ -6,7 +6,10 @@
 </head>
 <body>
 <main class="main-profile" style="height: 100%">
-    <div class="container">
+    <div class="container" th:if="${info.account.isLocked}">
+        <div th:replace="~{other/_account_locked::locked}"></div>
+    </div>
+    <div class="container" th:unless="${info.account.isLocked}">
         <div>
             <img class="cover-photo" alt="Cover Photo"
                  th:src="${#authentication.principal.account.accountInfo.coverPhoto == null ? 'https://th.bing.com/th/id/OIP.0PoDOSn6cnaaRwxnK0SqaAHaEK?rs=1&pid=ImgDetMain': #authentication.principal.account.accountInfo.coverPhoto}">

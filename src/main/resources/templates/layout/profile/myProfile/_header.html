@@ -21,7 +21,7 @@
             following</p>
         <div class="following">
             <th:block th:each="friend, iterStat : ${listFriends}">
-                <img th:if="${iterStat.index < 7}" th:src="@{${friend.friendInfo.accountInfo.avatar}}"
+                <img th:if="${iterStat.index < 7}" th:src="${friend.friendInfo.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1' : friend.friendInfo.accountInfo.avatar}"
                      th:alt="${friend.friendInfo.accountInfo.fullName}">
             </th:block>
         </div>

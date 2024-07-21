@@ -1,15 +1,93 @@
 <html lang="en" th:fragment="about">
 <div class="col row">
-    <div class="shadow-sm p-3 mb-3 bg-gradient rounded">
-        <h4 class="fw-bold text-secondary-emphasis">About</h4>
+    <div class="shadow-sm p-3 mb-3 bg-gradient rounded row">
+        <div class="col-3 border-end">
+            <h5 class="fw-medium text-secondary-emphasis">About</h5>
+            <div class="p-2">
+                <p class="fw-bold">Overview</p>
+                <p class="fw-bold">Work and education</p>
+                <p class="fw-bold">Places lived</p>
+                <p class="fw-bold">Contact and basic info</p>
+                <p class="fw-bold">Privacy and legal info</p>
+                <p class="fw-bold">Profile transparency</p>
+                <p class="fw-bold">Family and relationships</p>
+                <p class="fw-bold">Details about you</p>
+                <p class="fw-bold">Life events</p>
+            </div>
+        </div>
+        <div class="col-9">
+            <p th:unless="${info.work == null or info.work.isEmpty()}">
+                <i class="bi bi-briefcase-fill text-secondary m-2"></i>
+                <span>Works at <strong th:text="${info.work}">Work</strong></span>
+            </p>
+            <p th:unless="${info.education == null or info.education.isEmpty()}">
+                <i class="bi bi-building-fill text-secondary m-2"></i>
+                <span>Studies at <strong th:text="${info.education}">Education</strong></span>
+            </p>
+            <p th:unless="${info.currentCity == null or info.currentCity.isEmpty()}">
+                <i class="bi bi-house-door-fill text-secondary m-2"></i>
+                <span>Lives in <strong th:text="${info.currentCity}">CurrentCity</strong></span>
+            </p>
+            <p th:unless="${info.hometown == null or info.hometown.isEmpty()}">
+                <i class="bi bi-geo-alt-fill text-secondary m-2"></i>
+                <span>From <strong th:text="${info.hometown}">From</strong></span>
+            </p>
+            <p th:unless="${info.relationship == null}">
+                <i class="bi bi-heart-fill text-secondary m-2"></i>
+                <span th:text="${info.relationship.statusName}">Relationship</span>
+            </p>
+            <p th:unless="${info.dateOfBirth == null}">
+                <i class="bi  bi-calendar-check-fill text-secondary m-2"></i>
+                <span th:text="${info.dateOfBirth}">Date OfB irth</span>
+            </p>
+        </div>
     </div>
     <div class="shadow-sm p-3 mb-3 bg-gradient rounded">
         <h4 class="fw-bold text-secondary-emphasis">Photos</h4>
+        <div>
+            <div class="row row-cols-5 p-3">
+                <th:block th:each="p, iterStat : ${listPost}">
+                    <div class="text-center col" th:if="${p.type.name() eq 'CONTENT_IMAGE'}">
+                        <img th:src="@{${p.urlImage}}"
+                             class="rounded m-3" alt="..." width="200px" height="200px">
+                    </div>
+                </th:block>
+            </div>
+        </div>
     </div>
     <div class="shadow-sm p-3 mb-3 bg-gradient rounded">
         <h4 class="fw-bold text-secondary-emphasis">Videos</h4>
+        <div class="col-12">
+            <div class="row row-cols-5 p-3">
+                <th:block th:each="p, iterStat : ${listPost}">
+                    <div class="text-center col mb-3" th:if="${p.type.name() eq 'CONTENT_VIDEO'}">
+                        <iframe class="rounded d-block" width="100%" height="200px"
+                                th:src="${p.urlVideo}"
+                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope;picture-in-picture"
+                                allowfullscreen>>
+                        </iframe>
+                    </div>
+                </th:block>
+            </div>
+        </div>
     </div>
-    <div class="shadow-sm p-3 mb-3 bg-gradient rounded">
-        <h4 class="fw-bold text-secondary-emphasis">Friends</h4>
+    <div class="shadow-sm p-3 mb-3 bg-gradient rounded text-start">
+        <div th:unless="${listFriends.isEmpty()}">
+            <div class="fw-bold h5 ">Friends</div>
+            <div class="mb-3 fw-medium ">[[${listFriends.size()}]] friends</div>
+            <div class="d-flex flex-wrap">
+                <div class="d-flex flex-wrap" th:each="friend, iterStat : ${listFriends}">
+                    <div class="p-2 flex-grow-1">
+                        <img width="100px" height="100px" style="cursor: pointer"
+                             th:onclick="'window.location.href=\'/profile/' + ${friend.friendInfo.id} + '\''"
+                             th:src="@{${friend.friendInfo.accountInfo.avatar}}"
+                             th:alt="${friend.friendInfo.accountInfo.fullName}"
+                             class="rounded ">
+                        <div class="fw-medium">[[${friend.friendInfo.accountInfo.fullName}]]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>

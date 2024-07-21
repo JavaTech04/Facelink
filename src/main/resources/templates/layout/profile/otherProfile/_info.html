@@ -35,6 +35,7 @@
                 <div th:if="${iterStat.index < 9 and p.type.name() eq 'CONTENT_IMAGE'}" class="col text-center mt-2">
                     <img width="110px" height="110px" style="cursor: pointer"
                          th:src="@{${p.urlImage}}"
+                         th:onclick="'window.location.href=\'/view/' + ${p.id} + '?profile=2\''"
                          class="rounded mx-auto d-block">
                 </div>
             </th:block>
@@ -49,7 +50,7 @@
                 <div th:if="${iterStat.index < 9}" class="col text-center mb-3">
                     <img width="100px" height="100px" style="cursor: pointer"
                          th:onclick="'window.location.href=\'/profile/' + ${friend.friendInfo.id} + '\''"
-                         th:src="@{${friend.friendInfo.accountInfo.avatar}}"
+                         th:src="${friend.friendInfo.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1' : friend.friendInfo.accountInfo.avatar}"
                          th:alt="${friend.friendInfo.accountInfo.fullName}"
                          class="rounded mx-auto d-block">
                     <div class="text-start fw-medium">[[${friend.friendInfo.accountInfo.fullName}]]</div>

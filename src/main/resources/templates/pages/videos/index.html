@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout/videos/layout/index::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<main class="main-container-video" style="height: 100%">
+    <div th:if="${videos.content.isEmpty()}">
+        <h1 class="text-secondary-emphasis">No videos available</h1>
+    </div>
+    <div class="container" th:unless="${videos.content.isEmpty()}">
+        <th:block th:each="video : ${videos.content}">
+            <div class="mb-3 shadow-sm p-3 bg-white rounded p-3 row rounded-4">
+                <div class="profile-container mb-2 col-9">
+                    <img th:src="${video.account.accountInfo.avatar}"
+                         style="cursor: pointer"
+                         class="rounded-circle" alt="..." width="40px" height="40px"
+                         th:onclick="'window.location.href=\'/profile/' + ${video.account.id} + '\''">
+                    <div class="profile-text text-start">
+                        <p class="fw-bold mb-0">[[${video.account.accountInfo.fullName}]] <i
+                                th:if="${video.account.verifiedAccount}"
+                                class="text-primary bi bi-patch-check-fill"></i>
+                        </p>
+                        <p class="text-muted text-start small mb-0" th:text="${video.createDate}">Create Date</p>
+                    </div>
+                </div>
+                <div class="dropdown col-3 text-end">
+                    <button class="btn btn-link p-0 m-0 text-muted" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul th:if="${#authentication.principal.account.id eq video.account.id}"
+                        class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" th:href="@{'/view/' + ${video.id} + '?profile=0'}"><i
+                                class="bi bi-eye"></i> View</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/delete/' + ${video.id}}"><i class="bi bi-trash3"></i>
+                            Move
+                            to trash</a></li>
+                    </ul>
+                    <ul th:unless="${#authentication.principal.account.id eq video.account.id}"
+                        class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li>
+                        <li><a class="dropdown-item" th:href="@{'/view/' + ${video.id} + '?profile=0'}"><i
+                                class="bi bi-eye"></i> View</a></li>
+                        <p class="nav-tabs ps-3"><i class="bi bi-flag"></i> Report post</p>
+                        <a class="dropdown-item">Spam</a>
+                        </li>
+                    </ul>
+                </div>
+                <p th:text="${video.content}"
+                   th:onclick="'window.location.href=\'/view/' + ${video.id} + '?profile=0\''" style="cursor: pointer">
+                    Content
+                </p>
+                <div class="d-flex justify-content-center align-items-center">
+                    <iframe class="rounded d-block" width="100%" height="500px" th:src="${video.urlVideo}"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="row border-top d-flex p-2 mt-3 text-center">
+                    <div class="col" th:onclick="'window.location.href=\'/view/' + ${video.id} + '?profile=0\''"
+                         style="cursor: pointer">
+                        [[${video.reactions.size()}]] <i class="bi bi-hand-thumbs-up"></i> Like
+                    </div>
+                    <div class="col-4" th:onclick="'window.location.href=\'/view/' + ${video.id} + '?profile=0\''"
+                         style="cursor: pointer">
+                        [[${video.comments.size()}]] <i class="bi bi-chat"></i> Comment
+                    </div>
+                    <div class="col">
+                        3.6K <i class="bi bi-share"></i> Share
+                    </div>
+                    <div class="col">
+                        43M <i class="bi bi-eye"></i> View
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</main>
+</body>
+</html>

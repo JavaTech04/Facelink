@@ -38,10 +38,10 @@
                     <div class="col-md-3 me-5">
                         <div class="friend-card border">
                             <img th:src="${friend.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1': friend.avatar}"
-                                 th:onclick="'window.location.href=\'/profile/' + ${friend.id} + '\''" style="cursor: pointer">
+                                 th:onclick="'window.location.href=\'/profile/' + ${friend.account.id} + '\''" style="cursor: pointer">
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${friend.fullName}">FullName</h5>
-                                <button th:onclick="'window.location.href=\'/profile/' + ${friend.id} + '\''" class="fw-bold btn btn-outline-dark" style="width: 100%">View profile</button>
+                                <button th:onclick="'window.location.href=\'/profile/' + ${friend.account.id} + '\''" class="fw-bold btn btn-outline-dark" style="width: 100%">View profile</button>
                             </div>
                         </div>
                     </div>

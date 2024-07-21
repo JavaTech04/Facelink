@@ -3,7 +3,10 @@
 <head th:replace="~{layout/main/_head::head}"><title>Facelink</title></head>
 <body>
 <nav th:replace="~{layout/main/_navbar::navbar}"></nav>
-<div class="container-fluid pt-3" style="background-color: #f0f2f5;">
+<div class="container" th:if="${isLocked}">
+    <div th:replace="~{other/_account_locked::locked}"></div>
+</div>
+<div class="container-fluid pt-3" style="background-color: #f0f2f5;"  th:unless="${isLocked}">
     <aside th:replace="~{layout/main/_first_aside::first_aside}"></aside>
     <main th:replace="${view}"></main>
     <aside th:replace="~{layout/main/_second_aside::second_aside}"></aside>
@@ -11,11 +14,8 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../js/format/handleFormatFollower.js"></script>
-<script src="../js/profile/handleUpdateInfo.js"></script>
 <script src="../js/home/handlePost.js"></script>
 <script src="../js/other/handleActiveNavbar.js"></script>
-<script src="../js/profile/handleChangeImage.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

@@ -19,7 +19,7 @@ public class ListFriend {
     @Column(name = "account_id")
     private Long accountId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "friend_info")
     private Account friendInfo;
 

@@ -1,0 +1,87 @@
+html{
+    scroll-snap-type: y mandatory;
+}
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f2f5;
+    overflow: hidden;
+}
+
+nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+}
+
+.nav-logo {
+    margin-right: 10px;
+}
+
+.nav-search {
+    margin-left: -15px;
+}
+
+.nav-div-item-hover{
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.nav-div-item-hover:hover{
+    background-color: #f0f2f5;
+}
+.nav-div-item-hover:hover > a > i{
+    color: #716e6e;
+}
+
+.nav-link.active-custom {
+    color: #007bff;
+    border-bottom: 5px solid #007bff;
+    padding-bottom: 5px;
+    width: 90%;
+}
+
+
+.main-container-video{
+    flex: 1;
+    background-color: transparent;
+    margin-left: 5%;
+    margin-right: 5%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100vh;
+    scrollbar-width: none;
+    scroll-snap-type: y mandatory;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    scroll-snap-type: y mandatory;
+}
+
+.container > .mb-3 {
+    scroll-snap-align: center;
+    margin-bottom: 1rem;
+}
+
+.container-fluid {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+}
+
+.profile-text {
+    margin-left: 10px;
+    text-align: center;
+}

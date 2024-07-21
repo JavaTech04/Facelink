@@ -7,6 +7,9 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,13 +44,20 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private PostAudience postAudience;
 
+
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime createDate = LocalDateTime.now();
+    private LocalDateTime createDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @OneToMany(mappedBy = "post")
+    private Set<Comment> comments = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "post")
+    private Set<Reaction> reactions = new LinkedHashSet<>();
 
 }

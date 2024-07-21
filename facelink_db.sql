@@ -78,6 +78,26 @@ CREATE TABLE posts(
 );
 ALTER TABLE posts MODIFY content TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+CREATE TABLE comments(
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+	content LONGTEXT,
+	post_id BIGINT,
+	account_id BIGINT,
+	create_date DATETIME,
+	FOREIGN KEY (account_id) REFERENCES accounts(id),
+	FOREIGN KEY (post_id) REFERENCES posts(id)
+);
+ALTER TABLE posts MODIFY content TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE reactions(
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+	post_id BIGINT,
+	account_id BIGINT,
+	type NVARCHAR(50),
+	FOREIGN KEY (account_id) REFERENCES accounts(id),
+	FOREIGN KEY (post_id) REFERENCES posts(id)
+);
+
 -- Insert data
 -- Insert data into roles
 INSERT INTO roles (role_name) VALUES ('ADMIN'), ('USER'), ('GUEST');
@@ -105,11 +125,11 @@ VALUES
 INSERT INTO accountInfo (account_id, avatar,first_name, last_name, full_name, other_name, date_of_birth, gender, education, work, current_city, hometown, relationship_id, cover_photo)
 VALUES
 (1, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721044915/n5k9h6mfdbkxqwbvmp8q.jpg','Vu', 'Nong Hoang', 'Nong Hoang Vu', 'Mr Vuz', '2004-12-01', 1, 'FPT University', 'FPT Software', 'Ha Noi', 'Huu Lung Lang Son', 2, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721044931/frwxjbjf7necprhoebe3.jpg'),
-(2, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045030/u9cxsfzvynh6bd1oz9c0.jpg','Nguyet', 'Nguyen Thi' , 'Nguyen Thi', 'NTN', '2000-05-14', 1, 'Vu School', 'Vu Work', 'Son Tay', 'Hanoi, Vietnam', 2, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045030/u9cxsfzvynh6bd1oz9c0.jpg'),
-(3, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045041/vznufxhuxghgcvusimqa.jpg','Le', 'Luong My' , 'Luong My', 'LML', '2000-05-01', 1, 'Vu School', 'Vu Work', 'Lang Son', 'Huu Lung Lang Son', 1, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045041/bus3xrdyjbivnwmerpq5.jpg'),
-(4, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045005/vivmctfyqtioxrky8xy0.jpg','Anh', 'Quynh' , 'Quynh Anh', 'NQA', '2006-05-01', 1, 'Vu School', 'Vu Work', 'Bac Ninh', 'Bac Ninh', 1, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721050755/nvxdic1owqdd94nxwrw3.jpg'),
+(2, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045030/u9cxsfzvynh6bd1oz9c0.jpg','Nguyet', 'Nguyen Thi' , 'Nguyen Thi Nguyet', 'NTN', '2000-05-14', 1, 'Vu School', 'Vu Work', 'Son Tay', 'Hanoi, Vietnam', 2, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045030/u9cxsfzvynh6bd1oz9c0.jpg'),
+(3, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045041/vznufxhuxghgcvusimqa.jpg','Le', 'Luong My' , 'Luong My Le', 'LML', '2000-05-01', 1, 'Vu School', 'Vu Work', 'Lang Son', 'Huu Lung Lang Son', 1, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045041/bus3xrdyjbivnwmerpq5.jpg'),
+(4, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721045005/vivmctfyqtioxrky8xy0.jpg','Anh', 'N.Quynh' , 'N.Quynh Anh', 'NQA', '2006-05-01', 1, 'Vu School', 'Vu Work', 'Bac Ninh', 'Bac Ninh', 1, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721050755/nvxdic1owqdd94nxwrw3.jpg'),
 (5, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721046071/bddoksqc2wwhqrydyosb.jpg','Puth', 'Charlie' , 'Charlie Puth', 'CP', '1991-02-02', 1, 'Vu School', 'Singer song writer record producer', 'Rumson, New Jersey, U.S', 'Rumson, New Jersey, U.S.', 1, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721050676/gwbnpaafwyuf2zljokfo.png'),
-(6, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721048311/v6uttdy4fkam7vo77hwu.jpg','Trump', 'Donald' , 'Donal Trump', 'Trump', '1946-06-14', 1, 'Vu School', 'President of the USA', 'New York City, U.S.', 'New York City, U.S.', 3, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721050569/ujkda9tdhrx6nrp6eald.jpg');
+(6, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721048311/v6uttdy4fkam7vo77hwu.jpg','Trump', 'Donald' , 'Donald Trump', 'Trump', '1946-06-14', 1, 'Vu School', 'President of the USA', 'New York City, U.S.', 'New York City, U.S.', 3, 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721050569/ujkda9tdhrx6nrp6eald.jpg');
 -- Insert data into accountDetail
 INSERT INTO accountDetail (followers, following, account_id)
 VALUES
@@ -143,3 +163,7 @@ INSERT INTO listFriends(account_id, friend_info, status) VALUES
 ('CONTENT_IMAGE', '', 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721044974/xgobpxsw8vv2x9jbtwrx.jpg', NULL, 'PUBLIC', '2024-07-15', 6),
 ('CONTENT_IMAGE', '"One fine day, you will forget gain unforgettable things and meet people worth meeting in the world."', 'https://res.cloudinary.com/dswqplrdx/image/upload/v1721044931/frwxjbjf7necprhoebe3.jpg', NULL, 'PUBLIC', '2024-07-15', 1),
 ('CONTENT_VIDEO', '"No need to rush, if we are truly each other, we will be each other..."', NULL, 'https://res.cloudinary.com/dswqplrdx/video/upload/v1721051309/qxve4nfzqdptewfvw2qh.mp4', 'PUBLIC', '2024-07-16', 1);
+
+INSERT INTO reactions(post_id, account_id, type)
+SELECT 2, id, 'LIKE'
+FROM accounts;

@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query("FROM Account WHERE (phoneNumber = :data) OR (email = :data)")
     Optional<Account> findAccount(@Param("data") String data);
+
+    @Query("SELECT a.isLocked FROM Account a WHERE a.id = :id")
+    Boolean isAccountLocked(@Param("id") Long id);
 }

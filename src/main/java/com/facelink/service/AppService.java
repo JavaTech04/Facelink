@@ -8,12 +8,15 @@ import com.facelink.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -37,9 +40,16 @@ public class AppService {
     @Autowired
     private RelationShipRepository relationShipRepository;
 
-    public AccountInfo getInfo(){
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private ReactionRepository reactionRepository;
+
+    public AccountInfo getInfo() {
         return this.accountInfoRepository.getBio(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
     }
+
     public Set<?> getFriends(Long id) {
         return this.listFriendsRepository.getFriendByUser(id);
     }
@@ -86,15 +96,16 @@ public class AppService {
         return this.listFriendsRepository.friendRequests(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
     }
 
-    public List<Role> getRoles(){
+    public List<Role> getRoles() {
         return this.roleRepository.findAll();
     }
-    public List<?> getRelationships(){
+
+    public List<?> getRelationships() {
         return this.relationShipRepository.findAll();
     }
 
     @Transactional
-    public void editDetails(AccountInfo accountInfo){
+    public void editDetails(AccountInfo accountInfo) {
         Account account = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
         accountInfo.setAccount(account);
         accountInfo.setBio(account.getAccountInfo().getBio());
@@ -106,12 +117,12 @@ public class AppService {
         this.accountInfoRepository.save(accountInfo);
     }
 
-    public void updateBio(String bio){
+    public void updateBio(String bio) {
         Account account = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
         this.accountInfoRepository.updateBio(account.getAccountInfo().getId(), bio);
     }
 
-    public void updateAvatar(String url){
+    public void updateAvatar(String url) {
         Account a = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
         this.accountInfoRepository.updateAvatar(a.getAccountInfo().getId(), url);
 
@@ -124,7 +135,8 @@ public class AppService {
         context.setAuthentication(newAuthentication);
         SecurityContextHolder.setContext(context);
     }
-    public void updateCoverPhoto(String url){
+
+    public void updateCoverPhoto(String url) {
         Account a = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
         this.accountInfoRepository.updateCoverPhoto(a.getAccountInfo().getId(), url);
 
@@ -138,7 +150,7 @@ public class AppService {
         SecurityContextHolder.setContext(context);
     }
 
-    public void postNew(Post getPost){
+    public void postNew(Post getPost) {
         Post post = Post.builder()
                 .type(getPost.getUrlImage().isBlank() && getPost.getUrlVideo().isBlank() ? TypePost.CONTENT : getPost.getUrlImage().isBlank() ? TypePost.CONTENT_VIDEO : TypePost.CONTENT_IMAGE)
                 .content(getPost.getContent())
@@ -151,10 +163,61 @@ public class AppService {
         this.postRepository.save(post);
     }
 
-    public List<?> getPostsProfile(Long id){
-        return this.postRepository.getPostByAccount(id);
+    public Page<?> getPostsProfile(Long id, Pageable pageable) {
+        return this.postRepository.getPostByAccount(id, pageable);
     }
-    public List<?> getPostsPublic(){
-        return this.postRepository.getPostsPublic(PostAudience.PUBLIC);
+
+    public Page<?> getPostsPublic(Pageable pageable) {
+        return this.postRepository.getPostsPublic(PostAudience.PUBLIC, pageable);
+    }
+
+    @Transactional
+    public void deletePost(Long id) {
+        this.reactionRepository.deleteReactionByPost(id);
+        this.commentRepository.deleteCommentByPost(id);
+        this.postRepository.deleteById(id);
+    }
+
+    public Post findById(Long id) {
+        return this.postRepository.findById(id).orElse(null);
+    }
+
+    public void updatePostContent(String content, Long id) {
+        this.postRepository.updatePost(id, content);
+    }
+
+    public void createComment(String content, Long postId) {
+        Comment comment = Comment.builder()
+                .content(content)
+                .account(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount())
+                .post(this.findById(postId))
+                .createDate(new Date())
+                .build();
+        this.commentRepository.save(comment);
+    }
+
+    public void deleteComment(Long id) {
+        this.commentRepository.deleteById(id);
+    }
+
+    public boolean hasLike(Long idPost) {
+        return this.reactionRepository.hasLike(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost) > 0;
+    }
+
+    public void likeAndUnlike(Long idPost, String type) {
+        if (this.reactionRepository.hasLike(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost) > 0) {
+            this.reactionRepository.unlike(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost);
+        } else {
+            Reaction reaction = Reaction.builder()
+                    .post(this.findById(idPost))
+                    .account(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount())
+                    .type(type)
+                    .build();
+            this.reactionRepository.save(reaction);
+        }
+    }
+
+    public String getReactionType(Long idPost){
+        return this.reactionRepository.getReactionType(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost);
     }
 }

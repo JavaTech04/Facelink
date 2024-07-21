@@ -52,4 +52,7 @@ public class AuthenticationService {
         savedAccount = this.accountRepository.save(savedAccount);
         return savedAccount;
     }
+    public Boolean accountLocked(Long id) {
+        return this.accountRepository.isAccountLocked(id);
+    }
 }
