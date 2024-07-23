@@ -11,8 +11,8 @@
         </p>
         <hr>
         <b class="text-secondary">Contacts</b>
-        <th:block th:each="friend : ${listFriends}">
-            <p class="fw-medium mt-3 mb-3 p-2 ">
+        <th:block th:each="friend, iterStat : ${listFriends}">
+            <p th:if="${iterStat.index < 7}" class="fw-medium mt-3 mb-3 p-2 ">
                 <a style="text-decoration: none; color: black; cursor: pointer"
                    th:href="@{'/profile/' + ${friend.friendInfo.id}}">
                     <img th:src="${friend.friendInfo.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1' : friend.friendInfo.accountInfo.avatar}" class="rounded-circle" alt="..."

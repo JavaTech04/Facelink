@@ -85,7 +85,9 @@ public class AppController {
 
     @GetMapping("/comment/{id}/{profile}")
     public String comment(@PathVariable("id") Long id, @PathVariable("profile") int profile, @RequestParam("content") String content, Model model) {
-        this.userService.createComment(content, id);
+        if (!content.isBlank()) {
+            this.userService.createComment(content, id);
+        }
         return "redirect:/view/" + id + "?profile=" + profile;
     }
 

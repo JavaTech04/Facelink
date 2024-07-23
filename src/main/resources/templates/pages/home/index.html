@@ -99,7 +99,7 @@
         <th:block th:each="p : ${listPost.content}">
             <div class="mb-3 shadow-sm p-3 bg-white rounded p-3 row rounded-4">
                 <div class="profile-container mb-2 col-9">
-                    <img th:src="${p.account.accountInfo.avatar}"
+                    <img th:src="${p.account.accountInfo.avatar == null ? 'https://th.bing.com/th/id/OIP.0PoDOSn6cnaaRwxnK0SqaAHaEK?rs=1&pid=ImgDetMain': p.account.accountInfo.avatar}"
                          style="cursor: pointer"
                          class="rounded-circle" alt="..." width="40px" height="40px"
                          th:onclick="'window.location.href=\'/profile/' + ${p.account.id} + '\''">

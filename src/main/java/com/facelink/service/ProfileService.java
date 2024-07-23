@@ -80,7 +80,7 @@ public class ProfileService {
 
     public void updateAvatar(String url){
         Account a = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
-        this.accountInfoRepository.updateAvatar(a.getAccountInfo().getId(), url);
+        this.accountInfoRepository.updateAvatar(a.getId(), url);
 
         CustomUser customUser = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Account account = customUser.getAccount();
@@ -94,7 +94,7 @@ public class ProfileService {
 
     public void updateCoverPhoto(String url){
         Account a = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
-        this.accountInfoRepository.updateCoverPhoto(a.getAccountInfo().getId(), url);
+        this.accountInfoRepository.updateCoverPhoto(a.getId(), url);
 
         CustomUser customUser = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Account account = customUser.getAccount();

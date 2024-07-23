@@ -1,6 +1,9 @@
 package com.facelink.service;
 
+import com.facelink.dto.AccountDTO;
 import com.facelink.dto.CustomUser;
+import com.facelink.entity.Account;
+import com.facelink.entity.AccountInfo;
 import com.facelink.entity.ListFriend;
 import com.facelink.repository.AccountInfoRepository;
 import com.facelink.repository.AccountRepository;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,8 +32,23 @@ public class FriendService {
     public Set<?> getFriends(Long id) {
         return this.listFriendsRepository.getFriendByUser(id);
     }
+
     public List<?> getListFriends() {
         return this.accountInfoRepository.getAccountInfoByAccountId(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
+    }
+
+    public List<?> getAccountFriendDTO() {
+        Long id = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId();
+        List<AccountDTO> accountDTOS = new ArrayList<>();
+        String avatar = "https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1";
+        Set<ListFriend> accounts = (Set<ListFriend>) this.getFriends(id);
+        accounts.forEach(user -> {
+            accountDTOS.add(AccountDTO.builder()
+                    .id(user.getFriendInfo().getAccountInfo().getAccount().getId())
+                    .fullName(user.getFriendInfo().getAccountInfo().getFullName())
+                    .avatar(user.getFriendInfo().getAccountInfo().getAvatar() == null ? avatar : user.getFriendInfo().getAccountInfo().getAvatar()).build());
+        });
+        return accountDTOS;
     }
 
     public List<?> getFriendRequests() {

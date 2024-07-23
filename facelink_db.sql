@@ -98,6 +98,22 @@ CREATE TABLE reactions(
 	FOREIGN KEY (post_id) REFERENCES posts(id)
 );
 
+CREATE TABLE chatRoom(
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+	chat_name NVARCHAR(200),
+	senderId BIGINT,
+	recipientId BIGINT
+);
+
+CREATE TABLE chatMessage(
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+	chat_name NVARCHAR(200),
+	senderId BIGINT,
+	recipientId BIGINT,
+	content LONGTEXT,
+	timestamp DATETIME
+);
+ALTER TABLE chatMessage MODIFY content TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 -- Insert data
 -- Insert data into roles
 INSERT INTO roles (role_name) VALUES ('ADMIN'), ('USER'), ('GUEST');

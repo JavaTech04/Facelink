@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="../css/post/view_post.css">
 </head>
 <body>
-<div class="container-fluid">
+<div class="container" th:if="${isLocked}">
+    <div th:replace="~{other/_account_locked::locked}"></div>
+</div>
+<div class="container-fluid"  th:unless="${isLocked}">
     <div class="row no-gutters">
         <div class="col-9 image-container">
             <button class="btn bg-transparent mt-3" style="width: 70px; position: absolute">

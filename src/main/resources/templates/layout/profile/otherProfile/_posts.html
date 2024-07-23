@@ -11,7 +11,7 @@
         <th:block th:each="p : ${listPost}">
             <div class="mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded p-3 row">
                 <div class="profile-container mb-2 col-9">
-                    <img th:src="${p.account.accountInfo.avatar}"
+                    <img th:src="${p.account.accountInfo.avatar == null ? 'https://i0.wp.com/www.vidyadhirajamvk.org/wp-content/uploads/2022/08/venugopal.png?fit=436%2C534&ssl=1' : p.account.accountInfo.avatar}"
                          class="rounded-circle" alt="..." width="40px">
                     <div class="profile-text text-start">
                         <p class="fw-bold mb-0">[[${p.account.accountInfo.fullName}]] <i
