@@ -4,7 +4,7 @@
         <a class="navbar-brand nav-logo" th:href="@{/}"><img
                 th:src="@{https://bendig-team.de/wp-content/uploads/2020/09/Facebook.png}" width="50px"></a>
         <form class="d-flex" role="search">
-            <input class="form-control me-2 rounded-pill nav-search" type="search" placeholder="Search Facelink"
+            <input id="input-search" class="form-control me-2 rounded-pill nav-search" type="search" placeholder="Search Facelink"
                    aria-label="Search" style="background-color: #f0f2f5; height: 45px; width: 250px">
         </form>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -74,7 +74,7 @@
                         </li>
                         <hr>
                         <li><a class="dropdown-item fw-medium" th:href="@{/profile}">Profile</a></li>
-                        <li><a class="dropdown-item fw-medium" href="#">Settings</a></li>
+                        <li><a class="dropdown-item fw-medium" th:href="@{/setting}">Settings</a></li>
                         <li><a class="dropdown-item fw-medium" th:href="@{/logout}">Logout</a></li>
                     </ul>
                 </div>

@@ -2,8 +2,6 @@ package com.facelink.service;
 
 import com.facelink.dto.AccountDTO;
 import com.facelink.dto.CustomUser;
-import com.facelink.entity.Account;
-import com.facelink.entity.AccountInfo;
 import com.facelink.entity.ListFriend;
 import com.facelink.repository.AccountInfoRepository;
 import com.facelink.repository.AccountRepository;

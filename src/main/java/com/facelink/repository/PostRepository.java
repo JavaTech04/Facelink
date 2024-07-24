@@ -28,4 +28,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("FROM Post WHERE type = 'CONTENT_VIDEO_LINK' and postAudience = 'PUBLIC' AND account.isLocked = false ORDER BY RAND()")
     Page<?> getVideoLinksPublic(Pageable pageable);
+
+    @Modifying @Transactional @Query("DELETE FROM Post WHERE account.id = :id")
+    void deleteAccountMain(Long id);
 }

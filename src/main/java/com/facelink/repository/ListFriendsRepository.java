@@ -32,4 +32,7 @@ public interface ListFriendsRepository extends JpaRepository<ListFriend, Integer
     @Transactional
     @Query("UPDATE ListFriend SET status = 1 WHERE accountId = :id")
     void updateStatusFriend(@Param("id") Long id);
+
+    @Modifying @Transactional @Query("DELETE FROM ListFriend WHERE accountId = :id OR friendInfo.id = :id")
+    void deleteAccountMain(Long id);
 }
