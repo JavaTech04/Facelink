@@ -30,4 +30,16 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Modifying @Transactional @Query("DELETE FROM Account WHERE id = :id")
     void deleteAccountMain(Long id);
+
+    @Modifying @Transactional @Query("UPDATE Account SET isLocked = true WHERE id = :id")
+    void lockAccount(Long id);
+
+    @Modifying @Transactional @Query("UPDATE Account SET isLocked = false WHERE id = :id")
+    void unLockAccount(Long id);
+
+    @Modifying @Transactional @Query("UPDATE Account SET verifiedAccount = true WHERE id = :id")
+    void verifiedAccount(Long id);
+
+    @Modifying @Transactional @Query("UPDATE Account SET verifiedAccount = false WHERE id = :id")
+    void unVerifiedAccount(Long id);
 }

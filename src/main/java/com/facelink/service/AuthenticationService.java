@@ -55,4 +55,6 @@ public class AuthenticationService {
     public Boolean accountLocked(Long id) {
         return this.accountRepository.isAccountLocked(id);
     }
+
+
 }

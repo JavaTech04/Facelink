@@ -39,4 +39,5 @@ public class AuthController {
         this.authenticationService.save(account);
         return "redirect:/login";
     }
+
 }

@@ -36,7 +36,11 @@ public class AppController {
 
     @ModelAttribute("isLocked")
     public boolean isLocked() {
-        return this.authenticationService.accountLocked(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
+        try {
+            return this.authenticationService.accountLocked(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     @GetMapping

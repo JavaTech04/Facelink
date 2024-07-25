@@ -74,3 +74,17 @@ btnChangeInfo.addEventListener('click', () => {
 })
 
 submitInfo.addEventListener('submit', handleSubmitInfo, true);
+btnDeleteAccount.addEventListener('click', () => {
+    swal({
+        title: "Are you sure?",
+        text: "Your account will be permanently deleted!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location.href = '/setting/delete-account'
+            }
+        });
+})

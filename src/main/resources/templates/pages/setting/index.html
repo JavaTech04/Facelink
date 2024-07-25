@@ -66,11 +66,12 @@
                 <button class="btn btn-secondary" type="button" id="btn-change-info">Change</button>
                 <button class="btn btn-secondary" type="button" id="btn-show-change-password">Show change password
                 </button>
-                <a th:href="@{'/setting/delete-account?id=' + ${info.id}}" class="btn btn-danger" type="button" id="btn-delete-account">Delete account</a>
+                <a class="btn btn-danger" type="button" id="btn-delete-account">Delete account</a>
             </div>
         </form>
     </div>
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="../js/setting/main.js"></script>

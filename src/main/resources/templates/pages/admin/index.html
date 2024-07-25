@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Facelink Admin</title>
+    <link rel="stylesheet" href="../css/admin/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="icon" href="https://www.facebook.com/images/fb_icon_325x325.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+</head>
+<body id="body">
+<nav class="navbar bg-transparent border-bottom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Logo" width="30" height="30"
+                 class="d-inline-block align-text-top">
+            <span class="fw-medium text-light">Facelink</span>
+        </a>
+    </div>
+</nav>
+<div class="container-fluid p-3">
+    <div id="table-account">
+        <table id="table" class="table align-middle" >
+            <thead>
+            <tr class="text-center">
+                <th scope="col">No.</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Is Locked</th>
+                <th scope="col">Is Enabled</th>
+                <th scope="col">Verified</th>
+                <th scope="col">Admin</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody th:each="a, iterStat : ${data}">
+            <tr class="text-center">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td class="fw-medium text-start text-primary">
+                    <a th:href="@{'/profile/' + ${a.id}}">[[${a.email}]]</a>
+                </td>
+                <td class="fw-semibold">
+                    [[${a.phoneNumber == null ? 'NULL' : a.phoneNumber}]]
+                </td>
+                <td>
+                    <i th:onclick="|unlockAccount(${a.id})|" th:if="${a.isLocked}"
+                       class="text-danger fa-solid fa-unlock"></i>
+                    <i th:onclick="|lockAccount(${a.id})|" th:unless="${a.isLocked}"
+                       class="text-success fa-solid fa-lock"></i>
+                </td>
+                <td>
+                    <i th:if="${a.isEnabled}" class="text-danger fa-solid fa-check"></i>
+                    <i th:unless="${a.isEnabled}" class="text-success fa-solid fa-check"></i>
+                </td>
+                <td>
+                    <i th:onclick="|unVerifiedAccount(${a.id})|" th:if="${a.verifiedAccount}"
+                       class="text-primary fa-solid fa-circle-check"></i>
+                    <i th:onclick="|verifiedAccount(${a.id})|" th:unless="${a.verifiedAccount}"
+                       class="text-secondary fa-solid fa-circle-check"></i>
+                </td>
+                <td>
+                    <i th:if="${a.userRoles.size() > 1}" th:onclick="|removeAdmin(${a.id})|" class="text-warning fa-solid fa-screwdriver-wrench"></i>
+                    <i th:unless="${a.userRoles.size() > 1}" th:onclick="|setAdmin(${a.id})|" class="text-secondary fa-solid fa-screwdriver-wrench"></i>
+                </td>
+                <td>
+                    <button th:unless="${a.userRoles.size() > 1}" th:onclick="|deleteAccount(${a.id})|" class="btn"><i
+                            class="text-danger fa-solid fa-user-slash"></i></button>
+                    <i th:if="${a.userRoles.size() > 1}" class="text-primary fa-solid fa-person-circle-check"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="../js/admin/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</html>

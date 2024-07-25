@@ -1,0 +1,10 @@
+#body {
+    background: linear-gradient(180deg, #1b2733, #0c0f14);
+    height: 800px;
+    overflow: hidden;
+}
+#table-account > #table > thead > tr > th,
+#table-account > #table > tbody > tr > td{
+    background-color: transparent;
+    color: #ffffff;
+}

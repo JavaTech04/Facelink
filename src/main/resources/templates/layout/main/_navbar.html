@@ -41,6 +41,11 @@
                         <a class="nav-link" aria-current="page" th:href="@{/groups}"> <i class="fa-solid fa-users"></i></a>
                     </div>
                 </li>
+                <li class="nav-item me-5 h5 text-center" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                    <div class="nav-div-item-hover d-flex align-items-center justify-content-center">
+                        <a class="nav-link" aria-current="page" th:href="@{/admin}"> <i class="fa-solid fa-user-shield"></i></a>
+                    </div>
+                </li>
             </ul>
             <div class="d-flex p-2">
                 <div class="collapse navbar-collapse">

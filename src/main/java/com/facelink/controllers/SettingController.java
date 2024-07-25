@@ -53,8 +53,8 @@ public class SettingController {
     }
 
     @GetMapping("/delete-account")
-    public String deleteAccount(@Param("id") Long id){
-        this.settingService.deleteAccount(id);
+    public String deleteAccount(){
+        this.settingService.deleteAccount(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId());
         return "redirect:/logout";
     }
 
