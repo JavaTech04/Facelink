@@ -119,3 +119,31 @@ document.getElementById('btn-post').addEventListener('click', async () => {
         }
     }
 });
+
+document.querySelector('#video-link-button').addEventListener('click', () => {
+    const box = document.querySelector('#container-video-link');
+    box.style.display = box.style.display === '' ? 'none' : '';
+})
+document.querySelector('#link-video-submit').addEventListener('click', async () => {
+    const data = {
+        content: document.querySelector('#link-video-content').value.trim(),
+        link: document.querySelector('#link-video-link').value.trim(),
+        type: document.querySelector('input[name="typeLink"]:checked').value
+    }
+    const response = await fetch('/api/post-link',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+    if(response.status === 200){
+        const confirm = window.confirm("Do you want to reload the page?")
+        if(confirm){
+            location.reload();
+        }
+    }else{
+        alert("Error")
+    }
+})

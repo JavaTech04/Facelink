@@ -79,8 +79,8 @@
                 </div>
                 <hr class="mb-3">
                 <div class="row text-center">
-                    <div class="col">
-                        <i class="bi bi-camera-reels"></i> Live video
+                    <div class="col" id="video-link-button" style="cursor: pointer">
+                        <i class="bi bi-camera-reels"></i> Video link
                     </div>
                     <div class="col d-flex justify-content-center">
                         <div class="upload-container" id="uploadContainer">
@@ -92,6 +92,27 @@
                     </div>
                     <div class="col">
                         <i class="bi bi-gpu-card"></i> Reel
+                    </div>
+                </div>
+                <div class="m-3 row row-cols-2" style="display: none" id="container-video-link">
+                    <div class="col">
+                        <input id="link-video-content" type="text" class="form-control border-opacity-100" placeholder="Enter content for the video">
+                    </div>
+                    <div class="col">
+                        <input id="link-video-link" type="text" class="form-control border-opacity-100" placeholder="Enter link for the video">
+                    </div>
+                    <div class="col mt-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="typeLink" id="link-video-youtube" value="youtube">
+                            <label class="form-check-label" for="link-video-youtube">Youtube</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="typeLink" id="link-video-other" value="other" checked>
+                            <label class="form-check-label" for="link-video-other">Other</label>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button id="link-video-submit" class="btn border-1 border" type="button">Post</button>
                     </div>
                 </div>
             </div>

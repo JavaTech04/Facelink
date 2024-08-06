@@ -1,6 +1,7 @@
 package com.facelink.service;
 
 import com.facelink.dto.CustomUser;
+import com.facelink.dto.requests.VideoPostLink;
 import com.facelink.entity.*;
 import com.facelink.enums.PostAudience;
 import com.facelink.enums.TypePost;
@@ -163,6 +164,21 @@ public class AppService {
         this.postRepository.save(post);
     }
 
+    public Post postVideoLink(VideoPostLink getPost) {
+        String url = getPost.getType().equals("youtube") ?
+                String.format("https://www.youtube.com/embed/%s", getPost.getLink()) :
+                getPost.getLink();
+        Post post = Post.builder()
+                .type(TypePost.CONTENT_VIDEO_LINK)
+                .content(getPost.getContent())
+                .urlVideo(url)
+                .postAudience(PostAudience.PUBLIC)
+                .createDate(LocalDateTime.now())
+                .account(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount())
+                .build();
+        return this.postRepository.save(post);
+    }
+
     public Page<?> getPostsProfile(Long id, Pageable pageable) {
         return this.postRepository.getPostByAccount(id, pageable);
     }
@@ -186,14 +202,14 @@ public class AppService {
         this.postRepository.updatePost(id, content);
     }
 
-    public void createComment(String content, Long postId) {
+    public Comment createComment(String content, Long postId) {
         Comment comment = Comment.builder()
                 .content(content)
                 .account(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount())
                 .post(this.findById(postId))
                 .createDate(new Date())
                 .build();
-        this.commentRepository.save(comment);
+        return this.commentRepository.save(comment);
     }
 
     public void deleteComment(Long id) {
@@ -204,20 +220,21 @@ public class AppService {
         return this.reactionRepository.hasLike(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost) > 0;
     }
 
-    public void likeAndUnlike(Long idPost, String type) {
+    public Reaction likeAndUnlike(Long idPost, String type) {
         if (this.reactionRepository.hasLike(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost) > 0) {
             this.reactionRepository.unlike(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost);
+            return Reaction.builder().build();
         } else {
             Reaction reaction = Reaction.builder()
                     .post(this.findById(idPost))
                     .account(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount())
                     .type(type)
                     .build();
-            this.reactionRepository.save(reaction);
+            return this.reactionRepository.save(reaction);
         }
     }
 
-    public String getReactionType(Long idPost){
+    public String getReactionType(Long idPost) {
         return this.reactionRepository.getReactionType(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost);
     }
 }

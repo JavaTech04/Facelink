@@ -13,7 +13,7 @@
 <div class="container" th:if="${isLocked}">
     <div th:replace="~{other/_account_locked::locked}"></div>
 </div>
-<div class="container-fluid"  th:unless="${isLocked}">
+<div class="container-fluid" th:unless="${isLocked}">
     <div class="row no-gutters">
         <div class="col-9 image-container">
             <button class="btn bg-transparent mt-3" style="width: 70px; position: absolute">
@@ -82,7 +82,8 @@
                         </button>
                     </div>
                     <div id="div-content-edit" style="display: none">
-                        <textarea maxlength="1500" name="content" class="form-control border-0 bg-transparent mb-3" placeholder="Content"
+                        <textarea maxlength="1500" name="content" class="form-control border-0 bg-transparent mb-3"
+                                  placeholder="Content"
                                   th:text="${p.content}"></textarea>
                         <button id="btn-save" type="button" class="btn btn-primary">Done Editing</button>
                         <button id="btn-cancel" type="button" class="btn border">Cancel</button>
@@ -99,13 +100,13 @@
                             <i th:case="LOVE" th:if="${hasLike}" class="text-danger bi-heart-fill"></i>
                         </span>
                         <div class="reactions">
-                            <img th:onclick="'window.location.href=\'/like/' + ${p.id} + '/' + ${profile} + '?type=LIKE' + '\''"
+                            <img onclick="handleLike('LIKE')"
                                  src="https://www.vectorico.com/wp-content/uploads/2018/02/Facebook-Like.png"
                                  alt="Like" class="reaction-icon">
-                            <img th:onclick="'window.location.href=\'/like/' + ${p.id} + '/' + ${profile} + '?type=LOVE' + '\''"
+                            <img onclick="handleLike('LOVE')"
                                  src="https://www.logolynx.com/images/logolynx/dd/dd733ab4a27cc1acb5cecc4404d02ebb.png"
                                  alt="Like" class="reaction-icon">
-                            <img th:onclick="'window.location.href=\'/like/' + ${p.id} + '/' + ${profile} + '?type=ANGRY' + '\''"
+                            <img onclick="handleLike('ANGRY')"
                                  src="https://freepngimg.com/thumb/facebook/65278-icons-angry-computer-facebook-anger-emoji.png"
                                  alt="Haha" class="reaction-icon">
                         </div>
@@ -159,8 +160,10 @@
                                                 <i class="bi bi-flag"></i> Report post
                                             </p>
                                             <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Spam</a>
-                                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Seems like prostitution</a>
-                                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Problem involving someone under 18</a>
+                                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Seems like
+                                                prostitution</a>
+                                            <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Problem involving
+                                                someone under 18</a>
                                             <a class="dropdown-item" th:href="@{'#' + ${p.id}}">Violent, hateful or
                                                 disturbing content</a>
                                         </li>
@@ -180,21 +183,23 @@
                                  class="rounded-circle" alt="..." width="40px" height="40px"
                                  th:onclick="'window.location.href=\'/profile/' + ${p.account.id} + '\''">
                         </div>
-                        <form th:action="@{'/comment/' + ${p.id} + '/' + ${profile}}" method="get" class="col-10">
+                        <div method="get" class="col-10">
+                            <div id="p-id" style="display: none" th:text="${p.id}"></div>
                             <div class="row">
                                 <div class="col-10">
                                     <label style="width: 100%">
-                                        <textarea name="content" class="form-control border-0 bg-transparent"
+                                        <textarea id="comment-content" name="content"
+                                                  class="form-control border-0 bg-transparent"
                                                   type="text"
                                                   style="height: 50px; overflow-y: hidden" maxlength="300"
                                                   th:placeholder="'Comment as ' + ${#authentication.principal.account.accountInfo.fullName}"></textarea>
                                     </label>
                                 </div>
-                                <button class="btn col border-0">
+                                <button type="button" class="btn col border-0" onclick="commentSubmit()">
                                     <i class="bi bi-send-fill text-black-50"></i>
                                 </button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
