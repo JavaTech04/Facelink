@@ -7,6 +7,5 @@ import lombok.Data;
 @Data
 public class VideoPostLink {
     private String content;
-    private String type;
     private String link;
 }

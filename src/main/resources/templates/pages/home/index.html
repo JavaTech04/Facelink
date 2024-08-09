@@ -15,22 +15,23 @@
                     <a th:href="@{#/create-story}" class="create-story">Create story</a>
                 </div>
                 <div class="story-item">
-                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721044931/frwxjbjf7necprhoebe3.jpg"
+
+                    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHRxOGxmZ2doNTc0bXRseGlycnAzdGxrdGJzbGI2bDZjY2swamQyMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JTTAjM197sku8MgrRa/giphy.webp"
                          alt="...">
                     <div class="name">Nong Hoang Vu</div>
                 </div>
                 <div class="story-item">
-                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721045030/u9cxsfzvynh6bd1oz9c0.jpg"
+                    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHFybGRhdWd5dmRudnptZDhhZTdtOWU5cTR2aDRxN29odDJieGtpcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/uiW8Ui19VX5xm/200.webp"
                          alt="...">
                     <div class="name">Nguyễn Thị Nguyệt</div>
                 </div>
                 <div class="story-item">
-                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721045041/bus3xrdyjbivnwmerpq5.jpg"
+                    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnVjMmh5eTc0OG5pOHNja212cDJ6b25odjc0bHRscXQ4YXh2ano4aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mVxTTNf7iioNV0PccT/giphy.webp"
                          alt="...">
                     <div class="name">Lương Mỹ Lệ</div>
                 </div>
                 <div class="story-item">
-                    <img src="https://res.cloudinary.com/dswqplrdx/image/upload/v1721050755/nvxdic1owqdd94nxwrw3.jpg"
+                    <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWx1MXB3cjRpanliMzkwYTBxeXdtY3hxZzVldjFjbWprYXA3dGtlYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/q4LETQ247qT4Kx3O6n/giphy.webp"
                          alt="...">
                     <div class="name">Quỳnh Anh</div>
                 </div>
@@ -95,19 +96,23 @@
                     </div>
                 </div>
                 <div class="m-3 row row-cols-2" style="display: none" id="container-video-link">
+                    <hr class="col-12">
                     <div class="col">
-                        <input id="link-video-content" type="text" class="form-control border-opacity-100" placeholder="Enter content for the video">
+                        <input id="link-video-content" type="text" class="form-control border-opacity-100" placeholder="Enter a title for the video post...">
                     </div>
                     <div class="col">
-                        <input id="link-video-link" type="text" class="form-control border-opacity-100" placeholder="Enter link for the video">
+                        <input id="link-video-link" type="text" class="form-control border-opacity-100" placeholder="Enter video link here...">
                     </div>
                     <div class="col mt-3">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="typeLink" id="link-video-youtube" value="youtube">
+                            <input disabled class="form-check-input" type="radio" name="typeLink" id="link-video-youtube" value="youtube">
                             <label class="form-check-label" for="link-video-youtube">Youtube</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="typeLink" id="link-video-other" value="other" checked>
+                            <label class="form-check-label" for="link-video-youtube"><i class="bi bi-link"></i></label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input disabled class="form-check-input" type="radio" name="typeLink" id="link-video-other" value="other">
                             <label class="form-check-label" for="link-video-other">Other</label>
                         </div>
                     </div>

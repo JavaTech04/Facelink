@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = {"http://localhost:8080", "http://facelink-webapp.ap-southeast-2.elasticbeanstalk.com/"})
 public class PostContent {
     @Autowired
     private AppService appService;

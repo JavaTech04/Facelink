@@ -1,7 +1,10 @@
 package com.facelink.repository;
 
+import com.facelink.dto.response.AccountSearch;
 import com.facelink.entity.AccountInfo;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -38,6 +41,11 @@ public interface AccountInfoRepository extends JpaRepository<AccountInfo, Long> 
     @Query("UPDATE AccountInfo SET firstName = :firstName, lastName = :lastName, fullName = :fullName WHERE id = :id")
     void updateName(@Param("id") Long id, @Param("firstName") String firstName, @Param("lastName") String lastName, @Param("fullName") String fullName);
 
-    @Modifying @Transactional @Query("DELETE FROM AccountInfo WHERE account.id = :id")
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM AccountInfo WHERE account.id = :id")
     void deleteAccountMain(Long id);
+
+    @Query("FROM AccountInfo a WHERE a.fullName LIKE %:fullName% AND  a.account.isLocked = false ")
+    Page<AccountInfo> seachByFullName(Pageable pageable, String fullName);
 }

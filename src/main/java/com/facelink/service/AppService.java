@@ -2,6 +2,7 @@ package com.facelink.service;
 
 import com.facelink.dto.CustomUser;
 import com.facelink.dto.requests.VideoPostLink;
+import com.facelink.dto.response.AccountSearch;
 import com.facelink.entity.*;
 import com.facelink.enums.PostAudience;
 import com.facelink.enums.TypePost;
@@ -10,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -17,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -165,13 +168,10 @@ public class AppService {
     }
 
     public Post postVideoLink(VideoPostLink getPost) {
-        String url = getPost.getType().equals("youtube") ?
-                String.format("https://www.youtube.com/embed/%s", getPost.getLink()) :
-                getPost.getLink();
         Post post = Post.builder()
                 .type(TypePost.CONTENT_VIDEO_LINK)
                 .content(getPost.getContent())
-                .urlVideo(url)
+                .urlVideo(getPost.getLink())
                 .postAudience(PostAudience.PUBLIC)
                 .createDate(LocalDateTime.now())
                 .account(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount())
@@ -236,5 +236,22 @@ public class AppService {
 
     public String getReactionType(Long idPost) {
         return this.reactionRepository.getReactionType(((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount().getId(), idPost);
+    }
+
+    private AccountSearch convertToAccountSearch(AccountInfo account) {
+        return AccountSearch.builder()
+                .id(account.getAccount().getId())
+                .avatar(account.getAvatar())
+                .fullName(account.getFullName())
+                .build();
+    }
+
+    public List<?> search(String query) {
+        if (!query.isBlank()) {
+
+            return this.accountInfoRepository.seachByFullName(PageRequest.of(0, 5), query).stream().map(this::convertToAccountSearch).toList();
+        } else {
+            return new ArrayList<>();
+        }
     }
 }
